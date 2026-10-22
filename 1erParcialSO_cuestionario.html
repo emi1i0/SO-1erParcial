@@ -1,0 +1,1345 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SO · Práctica 1er Parcial</title>
+<meta name="description" content="Cuestionario interactivo para practicar el 1er parcial de Sistemas Operativos (UTN FRRe), armado a partir de revisiones de parciales anteriores con respuestas verificadas.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%2314352b'/><text x='50%25' y='56%25' text-anchor='middle' dominant-baseline='middle' font-family='monospace' font-size='28' font-weight='700' fill='%23f2c14e'>SO</text></svg>">
+<style>
+:root{
+  --bg:#f4f1ea; --surface:#fffdf8; --surface-2:#efeadf; --ink:#1d2421; --ink-2:#4b554f; --muted:#7a827c;
+  --line:#ddd6c8; --accent:#14532d; --accent-ink:#ffffff; --accent-soft:#dfeee3;
+  --ok:#1f7a45; --ok-soft:#e1f3e7; --bad:#b4372f; --bad-soft:#fbe6e3; --warn:#9a5b00; --warn-soft:#fff1d6;
+  --hl:#f2c14e; --shadow:0 1px 2px rgba(30,30,20,.06),0 6px 24px rgba(30,30,20,.06);
+  --radius:14px; --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace; --sans:"IBM Plex Sans",system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0f1412; --surface:#161d1a; --surface-2:#1e2723; --ink:#e7ece8; --ink-2:#b4bfb8; --muted:#86918a;
+    --line:#2b3632; --accent:#7fd19b; --accent-ink:#0f1412; --accent-soft:#1d3327;
+    --ok:#6fd497; --ok-soft:#173225; --bad:#ff8a7e; --bad-soft:#3a1d1a; --warn:#f2c14e; --warn-soft:#352a12;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 28px rgba(0,0,0,.25);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0f1412; --surface:#161d1a; --surface-2:#1e2723; --ink:#e7ece8; --ink-2:#b4bfb8; --muted:#86918a;
+  --line:#2b3632; --accent:#7fd19b; --accent-ink:#0f1412; --accent-soft:#1d3327;
+  --ok:#6fd497; --ok-soft:#173225; --bad:#ff8a7e; --bad-soft:#3a1d1a; --warn:#f2c14e; --warn-soft:#352a12;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 28px rgba(0,0,0,.25);
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased;min-height:100vh}
+button,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+a{color:var(--accent)}
+.wrap{max-width:860px;margin:0 auto;padding:0 16px}
+header.top{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+header.top .wrap{display:flex;align-items:center;gap:12px;height:56px}
+.brand{font-family:var(--mono);font-weight:600;letter-spacing:-.02em;display:flex;align-items:center;gap:8px;background:none;border:0;padding:0;font-size:15px}
+.brand .dot{width:10px;height:10px;border-radius:3px;background:var(--hl);box-shadow:0 0 0 3px color-mix(in srgb,var(--hl) 30%,transparent)}
+.brand b{color:var(--accent)}
+.spacer{flex:1}
+.icon-btn{border:1px solid var(--line);background:var(--surface);border-radius:10px;height:36px;min-width:36px;padding:0 10px;display:inline-flex;align-items:center;justify-content:center;gap:6px;font-size:14px;color:var(--ink-2)}
+.icon-btn:hover{border-color:var(--ink-2)}
+main{padding:24px 0 80px}
+
+/* HOME */
+.hero{padding:16px 0 8px}
+.kicker{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+h1{font-size:clamp(28px,5vw,40px);line-height:1.1;letter-spacing:-.02em;margin:6px 0 10px}
+h1 em{font-style:normal;background:linear-gradient(transparent 62%,color-mix(in srgb,var(--hl) 55%,transparent) 62%)}
+.lede{color:var(--ink-2);max-width:62ch;margin:0}
+.stats-strip{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 6px}
+.pill{font-family:var(--mono);font-size:12.5px;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:4px 10px;color:var(--ink-2)}
+.pill b{color:var(--ink)}
+.modes{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:22px 0}
+.mode{text-align:left;border:1px solid var(--line);background:var(--surface);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow);transition:transform .12s, border-color .12s;display:flex;flex-direction:column;gap:6px;min-height:132px}
+.mode:hover{transform:translateY(-2px);border-color:var(--accent)}
+.mode:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.mode .t{font-weight:600;font-size:17px;display:flex;align-items:center;gap:8px}
+.mode .d{color:var(--ink-2);font-size:14px}
+.mode .tag{font-family:var(--mono);font-size:11px;color:var(--accent);margin-top:auto}
+.mode.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.mode.primary .d,.mode.primary .tag{color:color-mix(in srgb,var(--accent-ink) 82%,transparent)}
+.panel{border:1px solid var(--line);background:var(--surface);border-radius:var(--radius);padding:16px;margin:12px 0}
+.panel h3{margin:0 0 10px;font-size:14px;font-family:var(--mono);font-weight:500;color:var(--ink-2);letter-spacing:.02em;display:flex;justify-content:space-between;align-items:center}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1px solid var(--line);background:var(--surface-2);border-radius:999px;padding:6px 12px;font-size:14px;display:inline-flex;align-items:center;gap:6px}
+.chip .n{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.chip[aria-pressed="true"]{background:var(--accent-soft);border-color:var(--accent);color:var(--ink)}
+.chip[aria-pressed="true"] .n{color:var(--accent)}
+.linkish{background:none;border:0;color:var(--accent);font-size:13px;padding:0;font-family:var(--mono)}
+.opts-row{display:flex;flex-wrap:wrap;gap:18px;align-items:center}
+.toggle{display:inline-flex;align-items:center;gap:10px;font-size:14px;cursor:pointer;user-select:none}
+.toggle input{appearance:none;width:38px;height:22px;border-radius:999px;background:var(--line);position:relative;transition:background .15s;margin:0;cursor:pointer;flex:none}
+.toggle input::after{content:"";position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:var(--surface);transition:left .15s;box-shadow:0 1px 2px rgba(0,0,0,.2)}
+.toggle input:checked{background:var(--accent)}
+.toggle input:checked::after{left:19px}
+.sel{border:1px solid var(--line);background:var(--surface-2);border-radius:10px;padding:6px 10px;font-size:14px}
+.topic-stats{display:grid;grid-template-columns:1fr;gap:6px;font-size:13.5px}
+.ts-row{display:grid;grid-template-columns:minmax(120px,190px) 1fr 52px;gap:10px;align-items:center}
+.bar{height:8px;border-radius:99px;background:var(--surface-2);overflow:hidden}
+.bar > i{display:block;height:100%;background:var(--accent);border-radius:99px}
+.ts-row .v{font-family:var(--mono);font-size:12px;color:var(--muted);text-align:right}
+.foot{color:var(--muted);font-size:13px;margin-top:28px;border-top:1px dashed var(--line);padding-top:14px}
+
+/* QUIZ */
+.qtop{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.counter{font-family:var(--mono);font-size:13px;color:var(--ink-2)}
+.progress{height:4px;background:var(--surface-2);border-radius:99px;overflow:hidden;margin:0 0 16px}
+.progress > i{display:block;height:100%;background:var(--accent);transition:width .25s}
+.score-badge{font-family:var(--mono);font-size:12.5px;padding:3px 9px;border-radius:999px;background:var(--surface);border:1px solid var(--line)}
+.timer{font-family:var(--mono);font-size:13px;padding:3px 9px;border-radius:999px;background:var(--warn-soft);color:var(--warn)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px}
+.meta{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.tag2{font-family:var(--mono);font-size:11.5px;padding:2px 8px;border-radius:6px;background:var(--surface-2);color:var(--ink-2);border:1px solid var(--line)}
+.tag2.freq{background:color-mix(in srgb,var(--hl) 22%,var(--surface));border-color:color-mix(in srgb,var(--hl) 60%,var(--line));color:var(--ink)}
+.tag2.fix{background:var(--warn-soft);border-color:color-mix(in srgb,var(--warn) 40%,var(--line));color:var(--warn)}
+.qtext{font-size:17.5px;font-weight:500;margin:6px 0 4px;line-height:1.45}
+.hint{font-size:13px;color:var(--muted);margin:0 0 14px;font-family:var(--mono)}
+.ctx{margin:0 0 14px}
+.ctx p{margin:0 0 10px;color:var(--ink-2);font-size:15px}
+.muted{color:var(--muted)}
+pre.code,pre.flow{font-family:var(--mono);font-size:13.5px;background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:12px 14px;overflow-x:auto;margin:0 0 12px;line-height:1.5;white-space:pre}
+.tables{display:flex;flex-wrap:wrap;gap:12px;align-items:flex-start;margin-bottom:6px}
+table.dt{border-collapse:collapse;font-family:var(--mono);font-size:13.5px;margin:0 0 10px;background:var(--surface)}
+table.dt caption{font-family:var(--sans);font-size:12px;color:var(--muted);text-align:left;padding-bottom:4px}
+table.dt th,table.dt td{border:1px solid var(--line);padding:4px 10px;text-align:center}
+table.dt th{background:var(--surface-2);font-weight:500;color:var(--ink-2)}
+.ws{overflow-x:auto;margin-bottom:12px}
+.ws-row{display:flex;gap:4px;font-family:var(--mono);padding-bottom:22px}
+.ws-row span{width:26px;height:30px;flex:none;display:flex;align-items:center;justify-content:center;border:1px solid var(--line);border-radius:6px;background:var(--surface-2);position:relative;font-size:14px}
+.ws-row span.t::after{position:absolute;top:34px;font-size:11px;color:var(--accent);font-weight:600}
+.ws-row span.t{border-color:var(--accent)}
+.ws-row span.t1::after{content:"t1"} .ws-row span.t2::after{content:"t2"} .ws-row span.t3::after{content:"t3"}
+.ws-row span.t2{background:var(--accent-soft)}
+.options{display:flex;flex-direction:column;gap:8px}
+.opt{display:flex;gap:12px;align-items:flex-start;text-align:left;width:100%;border:1.5px solid var(--line);background:var(--surface);border-radius:12px;padding:11px 13px;transition:border-color .1s, background .1s;line-height:1.45;font-size:15.5px}
+.opt:hover:not(:disabled){border-color:var(--ink-2)}
+.opt .k{flex:none;width:24px;height:24px;border-radius:7px;border:1.5px solid var(--line);display:inline-flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:12px;color:var(--muted);margin-top:1px}
+.opt.multi .k{border-radius:6px}
+.opt.single .k{border-radius:50%}
+.opt[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft)}
+.opt[aria-pressed="true"] .k{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.opt:disabled{cursor:default}
+.opt.is-ok{border-color:var(--ok);background:var(--ok-soft)}
+.opt.is-ok .k{background:var(--ok);border-color:var(--ok);color:#fff}
+.opt.is-bad{border-color:var(--bad);background:var(--bad-soft)}
+.opt.is-bad .k{background:var(--bad);border-color:var(--bad);color:#fff}
+.opt.is-missed{border-style:dashed;border-color:var(--ok)}
+.opt .lab{flex:1}
+.opt .mk{font-family:var(--mono);font-size:12px;font-weight:600;flex:none;margin-top:2px}
+.opt.is-ok .mk{color:var(--ok)} .opt.is-bad .mk{color:var(--bad)} .opt.is-missed .mk{color:var(--ok)}
+.match{display:flex;flex-direction:column;gap:10px}
+.mrow{display:grid;grid-template-columns:1fr minmax(150px,220px);gap:12px;align-items:center;border:1px solid var(--line);border-radius:12px;padding:10px 12px;background:var(--surface)}
+.mrow .l{font-size:15px}
+.mrow select,.cloze select{border:1.5px solid var(--line);background:var(--surface-2);border-radius:9px;padding:7px 10px;width:100%;font-size:14.5px}
+.mrow.is-ok{border-color:var(--ok);background:var(--ok-soft)} .mrow.is-bad{border-color:var(--bad);background:var(--bad-soft)}
+.mrow .fix{grid-column:1/-1;font-size:13px;color:var(--ok);font-family:var(--mono)}
+.cloze{font-size:16px;line-height:2.3}
+.cloze select{width:auto;display:inline-block;margin:0 2px}
+.cloze select.is-ok{border-color:var(--ok);background:var(--ok-soft)} .cloze select.is-bad{border-color:var(--bad);background:var(--bad-soft)}
+textarea.ans{width:100%;min-height:120px;border:1.5px solid var(--line);background:var(--surface-2);border-radius:12px;padding:12px;resize:vertical;font-size:15px;line-height:1.5}
+.model{border-left:3px solid var(--accent);background:var(--accent-soft);padding:12px 14px;border-radius:0 10px 10px 0;margin-top:12px;font-size:15px}
+.model p{margin:0 0 8px} .model p:last-child{margin:0}
+.model table.dt{margin:6px 0 10px}
+.self{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;align-items:center}
+.self span{font-size:14px;color:var(--ink-2);margin-right:4px}
+.fb{margin-top:16px;border-radius:12px;padding:14px 16px;font-size:15px;border:1px solid}
+.fb.ok{background:var(--ok-soft);border-color:color-mix(in srgb,var(--ok) 35%,transparent)}
+.fb.bad{background:var(--bad-soft);border-color:color-mix(in srgb,var(--bad) 35%,transparent)}
+.fb.part{background:var(--warn-soft);border-color:color-mix(in srgb,var(--warn) 35%,transparent)}
+.fb .h{font-weight:600;margin-bottom:4px;display:flex;align-items:center;gap:8px}
+.fb.ok .h{color:var(--ok)} .fb.bad .h{color:var(--bad)} .fb.part .h{color:var(--warn)}
+.fb p{margin:0}
+.note{margin-top:10px;border-radius:12px;padding:12px 14px;font-size:14.5px;background:var(--warn-soft);border:1px dashed color-mix(in srgb,var(--warn) 50%,transparent)}
+.note .h{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--warn);letter-spacing:.04em;text-transform:uppercase;margin-bottom:3px}
+.actions{display:flex;gap:10px;margin-top:16px;align-items:center;flex-wrap:wrap}
+.btn{border:1px solid var(--line);background:var(--surface);border-radius:11px;padding:10px 16px;font-weight:500;font-size:15px;display:inline-flex;align-items:center;gap:8px}
+.btn:hover:not(:disabled){border-color:var(--ink-2)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.btn.primary:hover:not(:disabled){filter:brightness(1.08)}
+.btn.ghost{background:transparent}
+.btn.sm{padding:6px 12px;font-size:14px;border-radius:9px}
+.kbd{font-family:var(--mono);font-size:11px;border:1px solid currentColor;border-radius:4px;padding:0 4px;opacity:.65}
+.grid-nav{display:flex;flex-wrap:wrap;gap:6px;margin-top:18px}
+.grid-nav button{width:36px;height:34px;border-radius:8px;border:1px solid var(--line);background:var(--surface);font-family:var(--mono);font-size:12.5px;color:var(--ink-2)}
+.grid-nav button.ans{background:var(--accent-soft);border-color:var(--accent);color:var(--ink)}
+.grid-nav button.cur{outline:2px solid var(--accent);outline-offset:1px}
+.grid-nav button.ok{background:var(--ok-soft);border-color:var(--ok);color:var(--ok)}
+.grid-nav button.bad{background:var(--bad-soft);border-color:var(--bad);color:var(--bad)}
+.grid-nav button.part{background:var(--warn-soft);border-color:var(--warn);color:var(--warn)}
+
+/* RESULTS */
+.res-head{display:flex;gap:20px;align-items:center;flex-wrap:wrap}
+.big{font-family:var(--mono);font-size:64px;font-weight:600;line-height:1;letter-spacing:-.04em}
+.big small{font-size:22px;color:var(--muted);font-weight:500}
+.res-list{display:flex;flex-direction:column;gap:6px;margin-top:10px}
+.res-item{display:flex;gap:10px;align-items:flex-start;text-align:left;width:100%;border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:9px 12px;font-size:14.5px}
+.res-item .s{font-family:var(--mono);font-size:12px;flex:none;width:44px;text-align:right;margin-top:2px}
+.res-item .s.ok{color:var(--ok)} .res-item .s.bad{color:var(--bad)} .res-item .s.part{color:var(--warn)}
+.res-item .tt{flex:1;color:var(--ink-2);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.empty{text-align:center;padding:40px 16px;color:var(--ink-2)}
+
+@media (max-width:680px){
+  .modes{grid-template-columns:1fr}
+  .mode{min-height:auto}
+  .mrow{grid-template-columns:1fr}
+  .card{padding:16px}
+  .qtext{font-size:16.5px}
+  .ts-row{grid-template-columns:110px 1fr 44px}
+  .actions .btn{flex:1;justify-content:center}
+  .hide-sm{display:none}
+}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <button class="brand" id="homeBtn" title="Inicio"><span class="dot"></span>SO<b>://</b>parcial1</button>
+  <div class="spacer"></div>
+  <button class="icon-btn" id="themeBtn" title="Cambiar tema" aria-label="Cambiar tema"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 0 0 18z" fill="currentColor"/></svg></button>
+</div></header>
+<main><div class="wrap" id="app"></div></main>
+
+<script>
+// Banco de preguntas — Sistemas Operativos, 1er Parcial (UTN FRRe)
+// Fuente: revisiones de parciales 2015–2024 y autoevaluaciones de la cátedra.
+// tipos: single | multi | tf | match | cloze | open
+const TEMAS = {
+  intro: "Introducción",
+  proc: "Procesos y planificación",
+  hilos: "Hilos",
+  conc: "Concurrencia",
+  dead: "Deadlock",
+  mem: "Particiones",
+  pag: "Paginación y MV",
+  reem: "Reemplazo de páginas",
+};
+
+const PAGE_TABLE = `<table class="dt"><thead><tr><th>Página</th><th>Cargada</th><th>Última ref.</th><th>R</th><th>M</th></tr></thead><tbody>
+<tr><td>0</td><td>126</td><td>279</td><td>0</td><td>0</td></tr>
+<tr><td>1</td><td>230</td><td>260</td><td>1</td><td>0</td></tr>
+<tr><td>2</td><td>120</td><td>272</td><td>1</td><td>1</td></tr>
+<tr><td>3</td><td>160</td><td>280</td><td>1</td><td>1</td></tr></tbody></table>`;
+
+const PART_Q3 = `<p>Particiones fijas de <b>200 Kb, 100 Kb y 50 Kb</b>. Cola única con recorrido de cola, criterio <b>mejor partición en la que cabe</b>. Planificación <b>Round Robin q=3</b>. TA = arribo a la cola de Nuevos.</p>
+<table class="dt"><thead><tr><th></th><th>TA</th><th>TI</th><th>Tamaño</th></tr></thead><tbody>
+<tr><td>P1</td><td>0</td><td>4</td><td>150</td></tr><tr><td>P2</td><td>0</td><td>4</td><td>60</td></tr>
+<tr><td>P3</td><td>2</td><td>4</td><td>75</td></tr><tr><td>P4</td><td>3</td><td>2</td><td>40</td></tr></tbody></table>`;
+
+const PART_Q4 = `<p>Igual que el anterior (particiones 200/100/50 Kb, mejor ajuste, cola única con recorrido) pero con <b>Round Robin q=4</b> y P1 con TI=3.</p>
+<table class="dt"><thead><tr><th></th><th>TA</th><th>TI</th><th>Tamaño</th></tr></thead><tbody>
+<tr><td>P1</td><td>0</td><td>3</td><td>150</td></tr><tr><td>P2</td><td>0</td><td>4</td><td>60</td></tr>
+<tr><td>P3</td><td>2</td><td>4</td><td>75</td></tr><tr><td>P4</td><td>3</td><td>2</td><td>40</td></tr></tbody></table>`;
+
+const PART_160 = `<p>Particiones fijas de <b>200 Kb, 100 Kb y 160 Kb</b>. Cola única con recorrido de cola. Planificación <b>Round Robin q=2</b>.</p>
+<table class="dt"><thead><tr><th></th><th>TA</th><th>TI</th><th>Tamaño</th></tr></thead><tbody>
+<tr><td>P1</td><td>0</td><td>8</td><td>150</td></tr><tr><td>P2</td><td>0</td><td>5</td><td>120</td></tr>
+<tr><td>P3</td><td>1</td><td>3</td><td>60</td></tr><tr><td>P4</td><td>2</td><td>2</td><td>50</td></tr></tbody></table>`;
+
+const BANQ = `<div class="tables">
+<table class="dt"><caption>Solicitudes (Máx.)</caption><thead><tr><th></th><th>r1</th><th>r2</th><th>r3</th></tr></thead><tbody>
+<tr><td>P1</td><td>3</td><td>2</td><td>2</td></tr><tr><td>P2</td><td>6</td><td>1</td><td>3</td></tr><tr><td>P3</td><td>3</td><td>1</td><td>4</td></tr><tr><td>P4</td><td>4</td><td>2</td><td>2</td></tr></tbody></table>
+<table class="dt"><caption>Asignados</caption><thead><tr><th></th><th>r1</th><th>r2</th><th>r3</th></tr></thead><tbody>
+<tr><td>P1</td><td>1</td><td>0</td><td>0</td></tr><tr><td>P2</td><td>5</td><td>1</td><td>1</td></tr><tr><td>P3</td><td>2</td><td>1</td><td>1</td></tr><tr><td>P4</td><td>0</td><td>0</td><td>2</td></tr></tbody></table>
+<table class="dt"><caption>Existencia</caption><thead><tr><th>r1</th><th>r2</th><th>r3</th></tr></thead><tbody><tr><td>9</td><td>3</td><td>6</td></tr></tbody></table>
+</div>`;
+
+const BANQ150 = `<p>Sistema con un total de <b>150 unidades de memoria</b>:</p>
+<table class="dt"><thead><tr><th></th><th>Máximo</th><th>Asignado</th></tr></thead><tbody>
+<tr><td>P1</td><td>70</td><td>45</td></tr><tr><td>P2</td><td>60</td><td>40</td></tr><tr><td>P3</td><td>60</td><td>15</td></tr></tbody></table>`;
+
+const WS_REF = `<div class="ws"><div class="ws-row">${"1 1 1 2 2 2 2 3 3 3 1 1 2 2 4 4 5 5 6 6 6 5 5 7 7".split(" ").map((v,i)=>`<span class="${i===6?'t t1':''}${i===15?'t t2':''}${i===24?'t t3':''}">${v}</span>`).join("")}</div></div>`;
+
+const FAULT_FLOW = `<pre class="flow">Referencia a página
+   │
+¿Dirección válida? ──No──▶ Error: direccionamiento ilegal
+   │ Sí
+¿Página en memoria? ──Sí──▶ Generar dirección física
+   │ No
+Interrupción (tsfp)
+   ▼
+Algoritmo de reemplazo de página
+   ▼
+Swap out página víctima
+   ▼
+Swap in página requerida
+   ▼
+Actualiza TP  ▶  Reiniciar instrucción interrumpida</pre>`;
+
+const Q = [
+// ───────────────────────── INTRODUCCIÓN
+{ id:"sys1", tema:"intro", tipo:"single", freq:true,
+  q:"Una Llamada al Sistema implica:",
+  opts:["Un cambio de modo (usuario a kernel)","Un cambio de modo (kernel a usuario)","Un cambio de contexto"], ans:0,
+  exp:"La llamada al sistema es la puerta de entrada al núcleo: el proceso pasa de <b>modo usuario a modo kernel</b> para que el SO ejecute la tarea privilegiada. No implica por sí misma un cambio de contexto (el mismo proceso sigue siendo el dueño de la CPU)." },
+
+{ id:"trap1", tema:"intro", tipo:"match", freq:true,
+  q:"Seleccione la explicación que mejor define al concepto que se presenta:",
+  items:[
+    ["Un TRAP (o Excepción) es","Una interrupción causada por la ocurrencia de operaciones no permitidas (división por 0, desbordamiento, acceso a una posición de memoria no permitida, ...)"],
+    ["Una INTERRUPCIÓN es","Una señal recibida por el procesador que indica la necesidad de \"interrumpir\" el curso de ejecución actual y pasar a ejecutar código específico. Pueden ser producidas por hardware o por software"]],
+  exp:"El <b>trap</b> nace <i>dentro</i> del proceso por una operación ilegal; la <b>interrupción</b> es una señal (HW o SW) que obliga a desviar la ejecución hacia una rutina de atención." },
+
+{ id:"trap2", tema:"intro", tipo:"single",
+  q:"¿Cuál es la diferencia entre una interrupción y un trap o cepo?",
+  opts:["La interrupción es originada por un suceso externo e independiente del proceso en ejecución, en tanto que el trap o cepo se produce ante una condición de excepción generada dentro del proceso en ejecución",
+        "La interrupción es originada ante el intento de utilizar dispositivos de E/S y el trap o cepo es originado ante el intento de utilizar elementos de SW",
+        "No existen diferencias"], ans:0,
+  exp:"Interrupción = suceso <b>externo</b> al proceso (ej. fin de una E/S). Trap = excepción <b>interna</b> del proceso (ej. división por cero)." },
+
+{ id:"int3", tema:"intro", tipo:"multi",
+  q:"Indicar cuál/es de las siguientes afirmaciones son CORRECTAS:",
+  opts:["Las interrupciones son algún tipo de suceso que es externo e independiente del proceso que se está ejecutando, como la culminación de una E/S",
+        "Las llamadas al sistema son responsables de la administración de redes y la conectividad de Internet en un sistema",
+        "Las llamadas al sistema actúan como un mecanismo de transición entre el espacio de usuario y el espacio del núcleo del sistema operativo, permitiendo que los programas de usuario realicen tareas privilegiadas del Sistema Operativo",
+        "Las interrupciones son generadas dentro del proceso que se está ejecutando y se producen ante un error que provoca la finalización del proceso"], ans:[0,2],
+  exp:"La opción d describe a las <b>excepciones o TRAP</b>, no a las interrupciones. La b no tiene sentido: las llamadas al sistema son la interfaz general con el núcleo, no algo específico de redes.",
+  nota:"En la revisión de 2024 el alumno solo marcó la c y le dieron parcial: hay que marcar <b>a y c</b>." },
+
+{ id:"mk1", tema:"intro", tipo:"tf",
+  q:"Normalmente los microkernels (o micronúcleo) proporcionan una gestión de la memoria y de los procesos básica. La gestión de comunicaciones entre clientes y servidores puede formar parte o no del microkernel.",
+  ans:false,
+  exp:"Una de las funciones que <b>no puede faltar</b> en el microkernel es justamente el mecanismo de comunicación entre el programa cliente y los servicios que corren en espacio de usuario." },
+
+{ id:"es1", tema:"intro", tipo:"single",
+  q:"Las instrucciones de E/S:",
+  opts:["Se realizan únicamente en modo monitor (o supervisor o núcleo)","Se realizan únicamente en modo usuario","Pueden realizarse en modo monitor o en modo usuario, según el tipo de operación de E/S de que se trate"], ans:0,
+  exp:"Las instrucciones de E/S son <b>privilegiadas</b>: solo el núcleo puede ejecutarlas. El usuario las pide a través de llamadas al sistema." },
+
+{ id:"tc1", tema:"intro", tipo:"single",
+  q:"¿Cuál es el criterio de planificación más relevante en un sistema de tiempo compartido?",
+  opts:["El tiempo de respuesta","El grado de multiprogramación","La optimización en el uso del procesador"], ans:0,
+  exp:"En tiempo compartido cada usuario debe sentir que tiene la máquina para él solo, así que lo que importa es que el sistema <b>responda rápido</b>." },
+
+{ id:"swap1", tema:"intro", tipo:"single",
+  q:"El propósito del intercambio o swapping es:",
+  opts:["Mejorar el rendimiento de la CPU","Resolver los problemas de fragmentación de memoria","Mejorar el rendimiento de las operaciones de E/S"], ans:0,
+  exp:"El swapping se diseñó para <b>incrementar el grado de multiprogramación</b>: saca de memoria procesos bloqueados y carga procesos que pueden usar la CPU, así la CPU no queda ociosa." },
+
+{ id:"mt1", tema:"intro", tipo:"tf",
+  q:"Un Sistema Operativo multitarea debe ser, obligatoriamente, de tiempo compartido.",
+  ans:false,
+  exp:"Multitarea = varios procesos activos a la vez. Tiempo compartido = <b>varios usuarios</b> simultáneos. Un SO de tiempo compartido debe ser multitarea, pero no al revés." },
+
+{ id:"swap2", tema:"intro", tipo:"single",
+  q:"Cuando se decide intercambiar un proceso A cargado en memoria y bloqueado en espera de que ocurra un suceso, y otro proceso B que solicita ejecutarse:",
+  opts:["Del proceso A no se descarga todo. Permanece en memoria, del SO, la porción del proceso involucrada en la E/S",
+        "Se descarga el proceso A completo",
+        "Del proceso A no se descarga todo. Permanece en memoria, del proceso, la porción del proceso involucrada en la E/S"], ans:0,
+  exp:"La E/S pendiente usa buffers en el <b>espacio del SO</b>; esa porción queda en memoria para que la E/S pueda completarse aunque el proceso se descargue." },
+
+{ id:"mmap1", tema:"intro", tipo:"single",
+  q:"El concepto de asociar (o mapear) un archivo en memoria permite:",
+  opts:["Que los accesos al archivo se realicen como accesos normales de memoria","Que los accesos al archivo se realicen mediante llamadas al sistema read() y write() sobre el archivo","Ninguna de las respuestas es correcta"], ans:0,
+  exp:"El archivo se manipula a través de la memoria en lugar de hacer constantes llamadas read()/write()." },
+
+// ───────────────────────── PROCESOS Y PLANIFICACIÓN
+{ id:"ej1", tema:"proc", tipo:"single", freq:true,
+  q:"La ejecución de un proceso se compone de:",
+  opts:["Secuencias de procesador y de entrada salida, terminando siempre con una de procesador","Secuencias de procesador y de entrada salida, terminando siempre con una de entrada/salida","Secuencias de procesador y de entrada salida, pudiendo terminar con cualquiera de ellas"], ans:0,
+  exp:"El proceso siempre termina con una ráfaga de CPU: la última instrucción (fin / exit) la ejecuta el procesador." },
+
+{ id:"cc1", tema:"proc", tipo:"single", freq:true,
+  q:"Un cambio de contexto implica:",
+  opts:["Actualizar, en memoria, el bloque de control del proceso que abandona la CPU y cargar los registros de la CPU con los datos del bloque de control del proceso que inicia su ejecución",
+        "Actualizar, en disco, el bloque de control del proceso que abandona la CPU y cargar los registros de la CPU con los datos del bloque de control del proceso que inicia su ejecución",
+        "Ninguna de las opciones propuestas"], ans:0,
+  exp:"El PCB vive en <b>memoria</b> (en el espacio del SO), no en disco." },
+
+{ id:"pcb1", tema:"proc", tipo:"multi", freq:true,
+  q:"Entre la información del proceso que debe actualizarse en el PCB cuando se produce un cambio de contexto se encuentra:",
+  opts:["Registros Índice","Biestables de estado","Registro de selección","Contador de Programa"], ans:[0,1,3],
+  exp:"<b>Registros índice</b>: si no se guardan, recomenzarían cada vez que el proceso vuelve a la CPU. <b>Biestables de estado</b>: resultados de las operaciones realizadas. <b>Contador de programa</b>: dirección de la próxima instrucción.",
+  nota:"El feedback de Moodle dice \"El PCB es un registro de la CPU…\": es un error de tipeo, quiere decir <b>el PC</b> (contador de programa)." },
+
+{ id:"rr1", tema:"proc", tipo:"single", freq:true,
+  q:"En el algoritmo Round Robin, si el tiempo de irrupción del proceso es menor que “q”, y su última instrucción no es la de fin, al finalizar el quantum:",
+  opts:["El proceso se bloquea","El proceso se suspende","El proceso termina","El proceso regresa a la cola de Listos"], ans:0,
+  exp:"Si usó menos que q y no terminó, es porque ejecutó una instrucción de <b>E/S</b>: se bloquea en la cola de esa E/S." },
+
+{ id:"plan1", tema:"proc", tipo:"match", freq:true,
+  q:"Los Planificadores de CPU (Largo, Mediano y Corto Plazo) actúan sobre determinadas transiciones de estado. Unir cada transición con el planificador que actúa sobre ella.",
+  items:[["Ejecución a Bloqueado","Planificador a Corto Plazo"],["Bloqueado a Bloqueado y Suspendido","Planificador a Mediano Plazo"],["Nuevo a Listo y Suspendido","Planificador a Largo Plazo"]],
+  exp:"Largo plazo = admisión (desde Nuevo). Mediano plazo = suspender/reanudar (swapping). Corto plazo = todo lo que pasa alrededor de la CPU." },
+
+{ id:"plan2", tema:"proc", tipo:"multi", freq:true,
+  q:"El planificador a mediano plazo trabaja sobre las siguientes transiciones de estado:",
+  opts:["Bloqueado ⟷ Bloqueado y Suspendido","Listo ⟷ Listo y Suspendido","Bloqueado y Suspendido → Listo","Ejecución → Bloqueado","Nuevo → Listo"], ans:[0,1,2],
+  exp:"El planificador a mediano plazo se activa cuando el gestor de memoria necesita liberar MP: suspende procesos y luego decide si volver a cargarlos. Todas sus transiciones involucran estados <b>suspendidos</b>." },
+
+{ id:"plan3", tema:"proc", tipo:"single",
+  q:"La función del planificador a Mediano plazo es:",
+  opts:["Intercambiar procesos entre la memoria principal y memoria secundaria","Tomar el siguiente trabajo de la cola de listos para su ejecución","Decidir si un nuevo proceso es aceptado en el sistema"], ans:0,
+  exp:"Tomar de la cola de listos = corto plazo. Admitir procesos = largo plazo." },
+
+{ id:"est1", tema:"proc", tipo:"single", freq:true,
+  q:"Un proceso que está en un estado de Bloqueado y Suspendido:",
+  opts:["Está en memoria secundaria esperando un suceso","Está en memoria principal esperando un suceso","Está en memoria caché esperando un suceso"], ans:0,
+  exp:"<b>Suspendido</b> = fue sacado (swap out) a memoria secundaria." },
+
+{ id:"est2", tema:"proc", tipo:"single",
+  q:"Un proceso que está en un estado de Bloqueado (sin suspender):",
+  opts:["Está en memoria principal esperando un suceso","Está en memoria secundaria esperando un suceso","Está en memoria caché esperando un suceso"], ans:0,
+  exp:"Bloqueado sin suspender sigue cargado en MP; solo espera el suceso." },
+
+{ id:"est3", tema:"proc", tipo:"single",
+  q:"Un proceso que se encuentra en el estado de Bloqueado, para ser ejecutado nuevamente debe pasar:",
+  opts:["De bloqueado a listo","De bloqueado a ejecución","De bloqueado a nuevo, y luego a listo"], ans:0,
+  exp:"Nunca se pasa directo de Bloqueado a Ejecución: primero vuelve a la cola de Listos y el planificador a corto plazo lo elige." },
+
+{ id:"est4", tema:"proc", tipo:"multi",
+  q:"Un proceso que se encuentra en un estado de Bloqueado:",
+  opts:["Se encuentra en la cola de espera de un dispositivo de E/S","Se encuentra en la cola de espera de un objeto hasta que se libere la sección crítica","Se encuentra en la cola de listos","Se encuentra en la cola de Procesos Bloqueados"], ans:[0,1],
+  exp:"Un proceso se bloquea esperando <b>algo concreto</b>: un dispositivo de E/S o un objeto de sincronización (ej. semáforo de una SC). Cada suceso tiene su propia cola de espera.",
+  nota:"La cátedra no considera correcta \"cola de Procesos Bloqueados\" (en la autoevaluación 2023 solo valen las dos primeras)." },
+
+{ id:"tr1", tema:"proc", tipo:"single", freq:true,
+  q:"El tiempo que, en cada acceso al Procesador, un proceso transcurre entre las colas de Listo y Ejecución recibe el nombre de:",
+  opts:["Tiempo de Retorno","Tiempo de espera","Tiempo de Respuesta","Tiempo de Espera promedio","Tiempo de Retorno promedio"], ans:0,
+  exp:"Es la respuesta que la cátedra marca como correcta en <b>todos</b> los parciales y autoevaluaciones del rejunte (2015, 2019, 2023).",
+  nota:"En la bibliografía general, el tiempo que un proceso pasa en la cola de listos suele llamarse <i>tiempo de espera</i>. Pero en este parcial Moodle corrige con <b>Tiempo de Retorno</b>, así que respondé eso." },
+
+{ id:"apr1", tema:"proc", tipo:"multi", freq:true,
+  q:"Las técnicas apropiativas o preemptibles implican que el SO puede expropiar el uso del procesador al proceso, una vez que se lo asignó. ¿Cuál/es de los siguientes algoritmos de planificación de CPU son o pueden implementarse como apropiativos?",
+  opts:["Round Robin","Colas multinivel realimentadas","SRTF","FCFS"], ans:[0,1,2],
+  exp:"RR es apropiativo por naturaleza (el quantum expropia). Colas multinivel realimentadas puede implementarse con o sin apropiación. <b>SRTF es apropiativo por definición</b>: es la versión apropiativa de SJF. FCFS nunca expropia.",
+  nota:"El feedback de Moodle dice que SRTF \"puede implementarse como apropiativo o no apropiativo\": eso está <b>mal</b>. SRTF es siempre apropiativo; su versión no apropiativa se llama SJF. La respuesta (RR, CMR, SRTF) igual es la correcta." },
+
+{ id:"apr2", tema:"proc", tipo:"multi", freq:true,
+  q:"¿Cuál/es de los siguientes algoritmos de planificación de CPU son no apropiativos (o no preemptibles) o tienen una versión no apropiativa?",
+  opts:["FCFS","SJF","Colas Multinivel","SRTF","Round Robin"], ans:[0,1,2],
+  exp:"FCFS y SJF son no apropiativos. Colas multinivel puede implementarse con o sin apropiación entre colas. SRTF es la versión <b>apropiativa</b> de SJF y RR es apropiativo por definición.",
+  nota:"Respuesta corregida: en la revisión de 2024 Moodle incluyó también SRTF como correcta, contradiciendo su propio feedback (\"SRTF: es la versión apropiativa de SJF\") y las claves de 2020 y 2023. La respuesta correcta es <b>FCFS, SJF y Colas Multinivel</b>." },
+
+{ id:"inan1", tema:"proc", tipo:"multi", freq:true,
+  q:"Los algoritmos que pueden provocar inanición son:",
+  opts:["Prioridades","SJF","SRTF","Round Robin","FCFS"], ans:[0,1,2],
+  exp:"Pueden provocar inanición los que se basan en algún tipo de <b>prioridad</b>: SJF y SRTF priorizan los procesos cortos, así que un proceso largo puede esperar indefinidamente. RR y FCFS atienden a todos por turno." },
+
+{ id:"env1", tema:"proc", tipo:"single",
+  q:"La técnica de “envejecimiento” se utiliza para:",
+  opts:["Impedir la inanición","Mejorar el rendimiento de la CPU","Mejorar los tiempos de retorno y espera promedio en algoritmos no preemptibles","Ninguna de las respuestas ofrecidas"], ans:0,
+  exp:"Envejecimiento = aumentar gradualmente la prioridad de los procesos que esperan mucho, para que nunca queden postergados indefinidamente." },
+
+{ id:"srtf1", tema:"proc", tipo:"single", freq:true,
+  q:"En el algoritmo SRTF, si arriba un proceso cuyo tiempo de irrupción es IGUAL que el del proceso que se está ejecutando:",
+  opts:["El nuevo proceso se ubica al principio de la cola de Listos mientras el proceso actual continúa ejecutándose","El nuevo proceso desaloja al que se estaba ejecutando","El nuevo proceso se ubica al final de la cola de espera"], ans:0,
+  exp:"Solo se expropia si el nuevo es <b>estrictamente menor</b>. Si es igual, no conviene pagar un cambio de contexto; el nuevo queda primero en la cola." },
+
+{ id:"srtf2", tema:"proc", tipo:"single",
+  q:"En el algoritmo SRTF, si arriba un proceso cuyo tiempo de irrupción es MENOR que el del proceso que se está ejecutando:",
+  opts:["El nuevo proceso desaloja al que se estaba ejecutando","El nuevo proceso se ubica al principio de la cola de Listos mientras el proceso actual continúa ejecutándose","El nuevo proceso se ubica al final de la cola de espera"], ans:0,
+  exp:"Es la esencia de SRTF: si llega uno con menor tiempo restante, expropia la CPU." },
+
+{ id:"prio1", tema:"proc", tipo:"single",
+  q:"El algoritmo de planificación por prioridades es preemptible (apropiativo):",
+  opts:["A veces","Siempre","Nunca"], ans:0,
+  exp:"Prioridades puede implementarse en versión apropiativa o no apropiativa." },
+
+{ id:"rr2", tema:"proc", tipo:"single",
+  q:"En un sistema que usa un algoritmo de planificación round-robin, ¿cuántos procesos como máximo pueden cambiar de estado cuando se produce una interrupción del disco que indica que se ha terminado una operación sobre el mismo?",
+  opts:["3","2","4"], ans:0,
+  exp:"(1) El proceso bloqueado pasa a Listos. Si en ese instante además vence el quantum del que se ejecuta, (2) ese pasa de Ejecución a Listos y (3) el siguiente de la cola pasa a Ejecución. Total: <b>3</b>." },
+
+{ id:"vrr1", tema:"proc", tipo:"single",
+  q:"Propuesta de planificación: los nuevos procesos entran a la Cola de Listos (FCFS con quantum q). Si un proceso termina su quantum sin terminar ni bloquearse, vuelve a Listos. Cuando el suceso esperado por un proceso bloqueado ocurre, en lugar de ir a Listos va a una Cola Auxiliar, que tiene preferencia sobre Listos, aunque recibe q menos el tiempo ya consumido antes de bloquearse. Esta propuesta tiende a:",
+  opts:["Mejorar el rendimiento de los procesos con carga de E/S","Mejorar el rendimiento de los procesos con carga de Procesador","Ninguna de las opciones propuestas"], ans:0,
+  exp:"En RR común los procesos con carga de E/S usan poco quantum y al volver quedan detrás de los de carga de CPU. La cola auxiliar los compensa." },
+
+{ id:"ccp1", tema:"proc", tipo:"open", freq:true,
+  q:"¿Siempre se produce un cambio de proceso cuando se produce un cambio de contexto? Fundamente su respuesta.",
+  model:"<p><b>No.</b> El cambio de contexto es un concepto distinto al cambio de proceso.</p><p>Puede ocurrir un cambio de contexto <b>sin cambiar el estado del proceso que está en ejecución</b> (por ejemplo, ante la atención de una interrupción: se guarda el contexto, se atiende y se retoma el mismo proceso).</p><p>En cambio, si el proceso que se ejecuta debe pasar a otro estado, el SO tiene que hacer cambios sustanciales en su entorno (guardar su PCB, actualizar colas, cargar el contexto de otro proceso).</p><p><b>Un cambio de proceso implica un cambio de contexto, pero no a la inversa.</b></p>",
+  nota:"En 2020 el docente bajó puntos a respuestas copiadas textualmente del feedback de las autoevaluaciones. Explicalo con tus palabras." },
+
+// ───────────────────────── HILOS
+{ id:"ult1", tema:"hilos", tipo:"match", freq:true,
+  q:"Indicar cuáles de las siguientes afirmaciones corresponden a Hilos a nivel de usuario (ULT) y cuáles a hilos a nivel de núcleo (KLT):",
+  choices:["ULT","KLT"],
+  items:[["Todo el trabajo de gestión de hilos lo realiza la aplicación","ULT"],
+         ["El kernel continúa planificando el proceso como una unidad y asignándole un único estado (Listo, bloqueado, etc.)","ULT"],
+         ["Es posible programar una aplicación como multihilo mediante una biblioteca de hilos","ULT"],
+         ["El cambio de contexto entre hilos lo realiza el kernel","KLT"],
+         ["Los hilos se bloquean y despiertan en forma independiente","KLT"],
+         ["El SO soporta los hilos y proporciona un conjunto de llamadas al sistema para su manipulación","KLT"]],
+  exp:"En ULT el núcleo <b>no sabe</b> que existen los hilos: ve un único proceso. En KLT el núcleo conoce y planifica cada hilo." },
+
+{ id:"ult2", tema:"hilos", tipo:"match", freq:true,
+  q:"¿Cuáles de las siguientes características son Ventajas y cuáles Desventajas de los Hilos a nivel de usuario (ULT)?",
+  choices:["Ventaja","Desventaja"],
+  items:[["En la mayoría de los sistemas operativos las llamadas al sistema son bloqueantes. Cuando un hilo realiza una llamada al sistema, se bloquea el mismo y también el resto de los hilos del proceso","Desventaja"],
+         ["El intercambio de los hilos no necesita los privilegios del modo kernel, porque todas las estructuras de datos están en el espacio de direcciones de usuario de un mismo proceso. Los cambios de contexto son rápidos ya que no involucran llamadas al sistema","Ventaja"],
+         ["Las aplicaciones multihilo no pueden aprovechar las ventajas de los multiprocesadores","Desventaja"],
+         ["La planificación de los hilos se realiza dentro del proceso","Ventaja"],
+         ["Los ULT pueden ejecutar en cualquier sistema operativo. La biblioteca de hilos es un conjunto compartido","Ventaja"]],
+  exp:"Las dos desventajas de ULT salen de que el kernel ve un solo proceso: si un hilo se bloquea, se bloquea todo; y no se pueden repartir hilos entre varios procesadores." },
+
+{ id:"klt1", tema:"hilos", tipo:"match", freq:true,
+  q:"¿Cuáles de las siguientes características son Ventajas y cuáles Desventajas de los Hilos a nivel de Núcleo (KLT)?",
+  choices:["Ventaja","Desventaja"],
+  items:[["Si se bloquea un hilo, puede planificar otro del mismo proceso o de otro","Ventaja"],
+         ["El paso de control de un hilo a otro requiere un cambio de modo","Desventaja"],
+         ["Las propias funciones del kernel pueden ser multihilo","Ventaja"],
+         ["El kernel puede planificar simultáneamente múltiples hilos del mismo proceso en múltiples procesadores","Ventaja"]],
+  exp:"La única desventaja de KLT es el costo: cambiar de hilo requiere pasar a modo kernel." },
+
+{ id:"hil1", tema:"hilos", tipo:"multi", freq:true,
+  q:"Indique qué información es compartida por todos los hilos de un proceso:",
+  opts:["Espacio de direcciones / Variables globales","Archivos abiertos","Procesos hijos","Alarmas pendientes / Señales y manejadores de señales","Información contable","Contador de programa","Registros","Pila","Estado"], ans:[0,1,2,3,4],
+  exp:"Se comparte todo lo del <b>proceso</b> (recursos). Es propio de cada <b>hilo</b> lo necesario para ejecutar: contador de programa, registros, pila y estado." },
+
+{ id:"hil2", tema:"hilos", tipo:"tf",
+  q:"Si se desea implementar una aplicación como un conjunto de unidades de ejecución relacionadas, es más eficiente hacerlo con un conjunto de hilos que con un conjunto de procesos independientes.",
+  ans:true,
+  exp:"Los hilos comparten datos y espacio de direcciones; cambiar entre hilos del mismo proceso tiene un overhead mucho menor que cambiar entre procesos." },
+
+{ id:"hil3", tema:"hilos", tipo:"single",
+  q:"En un sistema con implementación de hebras a nivel de usuario, cuando una de las hebras de un proceso se bloquea por una llamada al sistema:",
+  opts:["Se bloquean todas las hebras del proceso","Se bloquea únicamente la hebra involucrada en la llamada","Ninguna de las respuestas es correcta"], ans:0,
+  exp:"El SO no sabe que existen hebras: para él el proceso es un todo y bloquea el proceso entero." },
+
+{ id:"hil4", tema:"hilos", tipo:"single",
+  q:"Indicar cuál de las siguientes respuestas es correcta:",
+  opts:["Los hilos de un proceso comparten el estado y los recursos del proceso. Residen en el mismo espacio de direcciones y tienen acceso a los mismos datos",
+        "Los hilos de un proceso comparten el estado y los recursos del proceso, aunque residen en espacios de direcciones diferentes y tienen acceso a diferentes datos",
+        "Los hilos de un proceso comparten los recursos del proceso pero no su estado, residen en espacios de direcciones diferentes y tienen acceso a los mismos datos"], ans:0,
+  exp:"Todos los hilos viven en el <b>mismo espacio de direcciones</b> del proceso." },
+
+// ───────────────────────── CONCURRENCIA
+{ id:"ea1", tema:"conc", tipo:"single", freq:true,
+  q:"Indicar cuál de las siguientes afirmaciones es correcta:",
+  opts:["La espera activa es una característica de las soluciones al problema de las condiciones de competencia basadas en variables de cerradura, que PROVOCA que la CPU continúe asignada a un proceso que no podrá ejecutar su Sección Crítica hasta que otro proceso logre utilizar la CPU y liberar su SC",
+        "La espera activa es una característica de las soluciones al problema de las condiciones de competencia basadas en variables de cerradura, que IMPIDE que la CPU continúe asignada a un proceso que no podrá ejecutar su Sección Crítica hasta que otro proceso logre utilizar la CPU y liberar su SC",
+        "Ninguna de las opciones propuestas"], ans:0,
+  exp:"Con espera activa el proceso sigue en el bucle pidiendo entrar a la SC y no libera la CPU: es tiempo ocioso de CPU. Fijate en la palabra clave: <b>provoca</b>, no impide." },
+
+{ id:"mut1", tema:"conc", tipo:"single",
+  q:"En el caso de un Proceso, tanto PRODUCTOR como CONSUMIDOR, la operación DOWN MUTEX actúa sobre:",
+  opts:["Un semáforo binario que garantiza la exclusión mutua. Si MUTEX = 0 el proceso se bloquea en MUTEX; si MUTEX <> 0, MUTEX se decrementa y el proceso ingresa a la Sección Crítica",
+        "Un semáforo que cuenta la cantidad de entradas ocupadas. Si MUTEX = 0 el proceso se bloquea en FULL; si MUTEX <> 0 se decrementa MUTEX y se ejecuta la siguiente instrucción",
+        "Ninguna de las opciones propuestas"], ans:0,
+  exp:"MUTEX es binario y protege la sección crítica. El que cuenta entradas ocupadas es FULL." },
+
+{ id:"sem1", tema:"conc", tipo:"tf",
+  q:"El efecto de que un proceso PRODUCTOR ejecute un DOWN sobre el semáforo FULL — DOWN(FULL) o WAIT(FULL) — es el siguiente: si FULL=0 el proceso se bloquea en FULL.",
+  ans:false,
+  exp:"El productor <b>no hace DOWN sobre FULL</b>: hace DOWN EMPTY (¿hay lugar vacío?) y luego UP FULL. El DOWN FULL lo hace el consumidor.",
+  nota:"En la revisión de 2024 el alumno respondió Verdadero y era incorrecto." },
+
+{ id:"sem2", tema:"conc", tipo:"tf",
+  q:"En el caso de un Proceso PRODUCTOR, la operación DOWN EMPTY (o Wait Empty) actúa sobre un semáforo que cuenta la cantidad de entradas vacías. Si EMPTY=0 el proceso se bloquea en EMPTY; si EMPTY<>0 se decrementa EMPTY y se ejecuta la siguiente instrucción. La operación UP se ejecuta sobre FULL (o Signal Full): se incrementa FULL y se desbloquea un proceso bloqueado en FULL.",
+  ans:true,
+  exp:"Es la descripción correcta del productor: DOWN EMPTY → DOWN MUTEX → producir → UP MUTEX → <b>UP FULL</b> (que despierta a un consumidor bloqueado en FULL).",
+  nota:"Respuesta corregida: en la revisión de 2015 Moodle marcó esta afirmación como Falso, pero la afirmación espejo del consumidor (DOWN FULL / UP EMPTY) fue Verdadero en 2020, y el contenido es correcto. Si te aparece con esta misma redacción, la respuesta correcta es <b>Verdadero</b>." },
+
+{ id:"sem3", tema:"conc", tipo:"tf",
+  q:"En el caso de un Proceso CONSUMIDOR, la operación DOWN FULL (o Wait FULL) actúa sobre un semáforo que cuenta la cantidad de entradas ocupadas. Si FULL=0 el proceso se bloquea en FULL; si FULL<>0 se decrementa FULL y se ejecuta la siguiente instrucción. La operación UP se ejecuta sobre EMPTY (o Signal Empty): se incrementa EMPTY y se desbloquea un proceso bloqueado en EMPTY.",
+  ans:true,
+  exp:"Consumidor: DOWN FULL → DOWN MUTEX → leer → UP MUTEX → <b>UP EMPTY</b> (avisa que hay un lugar libre y despierta a un productor).",
+  nota:"En 2020 un alumno respondió Falso y era incorrecto." },
+
+{ id:"msg1", tema:"conc", tipo:"single", freq:true,
+  q:"En el caso de uso del PASO DE MENSAJES para la comunicación entre procesos:",
+  opts:["La forma más natural de implementación es el SEND no bloqueante y el RECEIVE bloqueante, lo cual requiere de mecanismos de control de mensajes enviados y recibidos",
+        "La forma más natural de implementación es el SEND bloqueante y el RECEIVE bloqueante, lo cual no requiere de mecanismos de control de mensajes enviados y recibidos",
+        "La forma más natural de implementación es el SEND bloqueante y el RECEIVE no bloqueante, lo cual requiere de mecanismos de control de mensajes enviados y recibidos",
+        "Ninguna de las opciones propuestas"], ans:0,
+  exp:"El emisor manda mensajes uno detrás de otro sin esperar el acuse (cada uno con nro. de secuencia). El receptor sí se bloquea porque necesita la información para continuar; si recibe dos mensajes no consecutivos, avisa al emisor cuál le falta." },
+
+{ id:"msg2", tema:"conc", tipo:"cloze",
+  q:"Completar:",
+  text:"El SEND BLOQUEANTE bloquea al {0} una vez enviado el mensaje hasta que se produzca el acuse de recibo; el {1} permite al emisor continuar su ejecución una vez que el mensaje fue copiado en el buffer; en el {2} el receptor continúa su ejecución después de ejecutar la primitiva e informar la dirección del buffer.",
+  blanks:[{opts:["Emisor","Receptor"],ans:0},{opts:["Send No Bloqueante","Send Bloqueante","Receive Bloqueante"],ans:0},{opts:["Receive No Bloqueante","Receive Bloqueante","Send No Bloqueante"],ans:0}],
+  exp:"Si el receptor <b>continúa</b> su ejecución, el receive es <b>no bloqueante</b>.",
+  nota:"En la revisión de 2020 el alumno puso \"Receive Bloqueante\" en el tercer espacio y era incorrecto." },
+
+{ id:"mon1", tema:"conc", tipo:"single",
+  q:"Si un proceso que se está ejecutando detecta con SIGNAL que una variable de condición se ha modificado:",
+  opts:["Desbloquea a uno de los procesos bloqueados en esa variable y le permite entrar al monitor",
+        "Verifica si existen procesos esperando fuera del monitor. Si existen, habilita el ingreso de un proceso. Si no existen, desbloquea a uno de los procesos bloqueados en esa variable y le permite entrar al monitor",
+        "Verifica si existen procesos esperando fuera del monitor. Si existen, habilita el ingreso de un proceso y lo bloquea en la variable, en tanto desbloquea a uno de los procesos bloqueados en esa variable para que se ejecute en el monitor"], ans:0,
+  exp:"SIGNAL sobre una variable de condición despierta a uno de los procesos bloqueados <b>en esa variable</b>." },
+
+{ id:"cdc1", tema:"conc", tipo:"single", freq:true,
+  q:"Cuando se produce el problema de Condiciones de Competencia (o de carrera), ¿cuál de las funciones del Sistema Operativo no se cumple?",
+  opts:["Garantizar la independencia de resultados","La exclusión mutua","La protección de memoria","La planificación de la CPU"], ans:0,
+  exp:"Con condiciones de competencia los resultados dependen del orden en que se ejecutan los procesos, así que no se garantiza la <b>independencia de resultados</b>.",
+  nota:"La mayoría de los alumnos respondió \"exclusión mutua\" y les pusieron 0 o la mitad. El docente aclara: la exclusión mutua es la <b>solución</b> al problema, no la función que no se cumple. En el parcial suele ser a desarrollar: fundamentalo." },
+
+{ id:"fork1", tema:"conc", tipo:"single",
+  q:"Cuando se ejecuta una instrucción FORK:",
+  opts:["2 o más procesos pasan del estado Bloqueado a Listo","1 proceso pasa del estado Bloqueado a Listo","2 o más procesos pasan del estado Ejecución a Bloqueado","1 proceso pasa del estado Ejecución a Bloqueado"], ans:0,
+  exp:"FORK habilita la ejecución concurrente del proceso que sigue al FORK y del que está en la etiqueta: ambos pasan de Bloqueado a Listo." },
+
+{ id:"join1", tema:"conc", tipo:"single",
+  q:"Cuando se ejecuta una instrucción JOIN y se verifica que el contador = 0:",
+  opts:["1 proceso pasa del estado Bloqueado a Listo","2 o más procesos pasan del estado Bloqueado a Listo","1 proceso pasa del estado Ejecución a Bloqueado","2 o más procesos pasan del estado Ejecución a Bloqueado"], ans:0,
+  exp:"Cuando el contador llega a 0 terminaron todas las ramas concurrentes y se habilita <b>un</b> proceso: el que sigue al JOIN." },
+
+{ id:"cob1", tema:"conc", tipo:"open", freq:true,
+  ctx:`<pre class="code">S1;
+Cobegin
+   S2;
+   S3;
+Coend
+S4</pre>`,
+  q:"¿Cuándo se producen cambios de estado al utilizar COBEGIN/COEND (o PARBEGIN/PAREND)? Ejemplifique con este algoritmo.",
+  model:"<p>Cuando termina S1 y se ejecuta el <b>COBEGIN</b>, S2 y S3 pasan de <b>Bloqueado a Listo</b> (pueden ejecutarse concurrentemente).</p><p>Cuando <b>ambos</b> terminan, el <b>COEND</b> provoca que S4 pase de <b>Bloqueado a Listo</b>.</p>",
+  nota:"No digas que los procesos \"cambian de estado indefinidamente\" (el docente lo marcó en 2020). Nombrá las transiciones concretas." },
+
+{ id:"forkj1", tema:"conc", tipo:"open", freq:true,
+  ctx:`<pre class="code">     S1
+     Fork L1
+     Fork L2
+     Fork L3
+     S2
+     GOTO U1
+L1:  S3
+U1:  Join Cont1
+     S6
+     GOTO U2
+L2:  S4
+     GOTO U2
+L3:  S5
+U2:  Join Cont2
+     S7</pre>`,
+  q:"Indicar: 1) valores iniciales de Cont1 y Cont2; 2) ¿cómo interpreta el SO la instrucción Fork? ¿Implica algún cambio de estado? Ejemplifique; 3) ¿cuándo se produce un cambio de estado al ejecutar Join? Ejemplifique.",
+  model:"<p><b>1)</b> Cont1 = 2 (llegan S2 y S3) y Cont2 = 3 (llegan S6, S4 y S5).</p><p><b>2)</b> FORK indica que el proceso que sigue al Fork y el de la etiqueta pueden ejecutarse concurrentemente. Sí implica cambio de estado: al terminar S1 y ejecutarse los Fork, <b>S2, S3, S4 y S5</b> pasan de Bloqueado a Listo.</p><p><b>3)</b> El cambio de estado se produce cuando el contador llega a 0. Cuando Cont1 = 0 (terminaron S2 y S3), <b>S6</b> pasa de Bloqueado a Listo. Cuando Cont2 = 0 (terminaron S4, S5 y S6), <b>S7</b> pasa de Bloqueado a Listo.</p>",
+  nota:"Error típico corregido por el docente: S6 <b>no</b> pasa a Listo cuando termina S1, sino cuando terminan S2 y S3." },
+
+{ id:"forkj2", tema:"conc", tipo:"open",
+  ctx:`<pre class="code">Count = 4
+     P1
+     Fork L1
+     P2
+     Goto U1
+L1:  P3
+     Fork L2
+     Fork L3
+     P4
+     Goto U1
+L2:  P5
+     Goto U1
+L3:  P6
+U1:  Join (Count)
+     P7</pre>`,
+  q:"Para este programa Fork/Join, ¿cuándo un proceso, o varios, pasan de la cola de bloqueados a la cola de listos? Ejemplifique.",
+  model:"<p><b>Con FORK:</b> al terminar P1 y ejecutarse Fork L1, P2 y P3 pasan de Bloqueado a Listo. Al terminar P3 y ejecutarse Fork L2 y Fork L3, <b>P4, P5 y P6</b> pasan de Bloqueado a Listo.</p><p><b>Con JOIN:</b> cada rama que termina decrementa Count. Cuando Count = 0 (terminaron P2, P4, P5 y P6), <b>P7</b> pasa de Bloqueado a Listo.</p>",
+  nota:"En 2020 el alumno solo explicó el FORK y le descontaron: hay que mencionar <b>también el JOIN</b>." },
+
+{ id:"cons1", tema:"conc", tipo:"open", freq:true,
+  ctx:`<pre class="code">PROCESO CONSUMIDOR
+DOWN MUTEX
+DOWN FULL
+Leer ITEM
+UP FULL
+UP MUTEX</pre>`,
+  q:"Indicar cuáles son los errores en el algoritmo del CONSUMIDOR, explicar por qué son incorrectos y presentar el algoritmo correcto.",
+  model:"<p><b>Error 1, orden de los DOWN:</b> primero hay que hacer DOWN FULL (¿hay algo para leer?) y recién después DOWN MUTEX. Si toma MUTEX y luego se bloquea en FULL, se bloquea <i>dentro</i> de la SC y el productor nunca puede entrar a producir: <b>deadlock</b>.</p><p><b>Error 2, UP FULL:</b> el consumidor debe hacer <b>UP EMPTY</b>, porque consumió un elemento: incrementa las entradas vacías y despierta a un productor que pudo haberse bloqueado en EMPTY.</p><pre class=\"code\">DOWN FULL\nDOWN MUTEX\nLeer ITEM\nUP MUTEX\nUP EMPTY</pre>",
+  nota:"Respuestas de alumnos en el rejunte con errores: una puso UP MUTEX, UP FULL y UP EMPTY juntos; otra dejó UP FULL en lugar de UP MUTEX. Lo correcto es <b>solo UP MUTEX y UP EMPTY</b>. Y siempre explicá el porqué: en 2020 descontaron por no hacerlo." },
+
+// ───────────────────────── DEADLOCK
+{ id:"dl1", tema:"dead", tipo:"tf",
+  q:"En los grafos para detectar deadlocks (o bloqueos), la existencia de un ciclo en un grafo garantiza la ocurrencia de deadlock.",
+  ans:false,
+  exp:"Un ciclo es condición necesaria pero no suficiente cuando hay recursos con <b>varias instancias</b>. Solo garantiza deadlock si cada recurso tiene una única instancia." },
+
+{ id:"dl2", tema:"dead", tipo:"tf",
+  q:"En el tratamiento del Deadlock, un estado es Seguro si es posible asegurar que la mayoría de los procesos podrá obtener sus máximos en un momento determinado.",
+  ans:false,
+  exp:"Debe garantizarse que <b>TODOS</b> los procesos podrán obtener sus máximos en algún orden." },
+
+{ id:"dl3", tema:"dead", tipo:"single",
+  q:"El Método de Evitación (Impedimento) de Deadlock consiste en:",
+  opts:["Conceder únicamente las peticiones de recursos disponibles que no conduzcan a estados propensos al deadlock","Negar al menos una de las condiciones necesarias para que se produzca un deadlock","Permitir que el sistema revoque la propiedad de ciertos recursos a los procesos bloqueados"], ans:0,
+  exp:"Negar una condición = <b>prevención</b>. Revocar recursos = recuperación. Evitar = analizar cada petición (ej. banquero) y solo concederla si el estado sigue siendo seguro." },
+
+{ id:"banq1", tema:"dead", tipo:"single", freq:true, ctx:BANQ,
+  q:"Dado este estado de asignación de recursos, ¿cuál es el Vector DISPONIBLE?",
+  opts:["r1=1, r2=1, r3=2","r1=0, r2=1, r3=1","r1=9, r2=3, r3=6","r1=1, r2=0, r3=2"], ans:0,
+  exp:"Disponible = Existencia − Σ Asignados. Σ Asignados = (1+5+2+0, 0+1+1+0, 0+1+1+2) = (8, 2, 4). Disponible = (9−8, 3−2, 6−4) = <b>(1, 1, 2)</b>.",
+  nota:"En otra versión del parcial (2019) P2 tenía asignados (6,1,2), y por eso daba Disponible (0,1,1) y P2 necesidad (0,0,1). Siempre recalculá con los datos que te den." },
+
+{ id:"banq2", tema:"dead", tipo:"open", freq:true, ctx:BANQ,
+  q:"Completar la matriz de NECESIDADES (P1r1=…, P1r2=…) y el Vector DISPONIBLE (r1=…, r2=…). Explique brevemente cómo funciona el algoritmo ante cada solicitud de un proceso.",
+  model:"<p><b>Necesidades = Solicitudes − Asignados</b></p><table class=\"dt\"><thead><tr><th></th><th>r1</th><th>r2</th><th>r3</th></tr></thead><tbody><tr><td>P1</td><td>2</td><td>2</td><td>2</td></tr><tr><td>P2</td><td>1</td><td>0</td><td>2</td></tr><tr><td>P3</td><td>1</td><td>0</td><td>3</td></tr><tr><td>P4</td><td>4</td><td>2</td><td>0</td></tr></tbody></table><p><b>Disponible</b> = (1, 1, 2).</p><p><b>Funcionamiento:</b> ante cada solicitud el SO simula la asignación y corre el <b>algoritmo de seguridad</b>: recorre la matriz de Necesidades buscando una fila ≤ Disponible; si la encuentra, simula darle todo lo que le falta, que termine y devuelva lo asignado (Disponible += Asignados de ese proceso), y vuelve a buscar. Si en algún momento no hay ninguna fila ≤ Disponible y quedan procesos pendientes, el estado es <b>INSEGURO</b> y el SO <b>no asigna</b> la solicitud. Si todos pueden terminar en algún orden, el estado es <b>seguro</b> y la solicitud se concede.</p><p>Con estos datos: P2 (1,0,2) ≤ (1,1,2) → Disp (6,2,3) → P1 → (7,2,3) → P3 → (9,3,4) → P4 → (9,3,6). Secuencia segura: <b>P2, P1, P3, P4</b>.</p>",
+  nota:"Error frecuente (corregido por el docente): decir que solo se compara la solicitud contra el vector de existencia. El algoritmo controla las necesidades de <b>todos</b> los procesos, no solo del que pide." },
+
+{ id:"banq3", tema:"dead", tipo:"single", ctx:BANQ150,
+  q:"P1 solicita 25 unidades más. Aplicando el algoritmo del Banquero, ¿es seguro conceder la petición?",
+  opts:["Sí. Secuencia de terminación: P1, P2, P3","No, porque P1 solicita más de lo disponible","Sí, pero solo con la secuencia P3, P2, P1","No: después de asignar, ningún proceso puede terminar"], ans:0,
+  exp:"Necesidades: P1=25, P2=20, P3=45. Disponible = 150 − (45+40+15) = <b>50</b>. La petición (25) ≤ Necesidad de P1 (25) y ≤ Disponible (50). Simulando: Disp = 25, P1 necesita 0 → termina y libera 70 → Disp 95 → P2 (20) termina → Disp 135 → P3 (45) termina. <b>Estado seguro: P1, P2, P3</b>.",
+  nota:"Pregunta de 2024 que el alumno dejó sin resolver (0/3). Acá está resuelta." },
+
+// ───────────────────────── PARTICIONES
+{ id:"pv1", tema:"mem", tipo:"single", freq:true,
+  q:"En un sistema de gestión de memoria con particiones variables, en el PCB se guarda:",
+  opts:["La Dirección de inicio y el tamaño del proceso","Las direcciones de inicio y fin","La dirección de inicio y el desplazamiento","Ninguna de las opciones propuestas"], ans:0,
+  exp:"Cuando la CPU genera una dirección se verifica que no supere el límite (tamaño); si lo cumple, se le suma la base (dirección de inicio) y se obtiene la dirección efectiva.",
+  nota:"Otra variante que aparece: \"La dirección de inicio y el tamaño de la memoria asignada\". Es la misma idea." },
+
+{ id:"pv2", tema:"mem", tipo:"single",
+  q:"En un esquema MVT (o Particiones Variables) las particiones de memoria:",
+  opts:["Son creadas dinámicamente, por el SO, en base a los requerimientos de cada proceso","Son creadas dinámicamente, por el proceso de usuario, en base a los requerimientos de cada proceso","Son creadas de forma estática por el SO","Son creadas de forma estática por el proceso de usuario"], ans:0,
+  exp:"En MVT el SO crea cada partición del tamaño exacto que pide el proceso al cargarlo." },
+
+{ id:"fe1", tema:"mem", tipo:"tf", freq:true,
+  q:"En un esquema de particiones variables, la situación en que en memoria física hay 3 huecos libres, no contiguos, cuya suma es igual a 500 K, y existe un proceso que requiere un espacio de 550K que no puede ingresar a memoria, se denomina FRAGMENTACIÓN EXTERNA.",
+  ans:false,
+  exp:"No hay fragmentación externa porque, aunque se juntaran los huecos, el espacio <b>no alcanza</b> (500 < 550). No es un problema de asignación sino de requerimientos." },
+
+{ id:"bl1", tema:"mem", tipo:"single", freq:true,
+  q:"El esquema de protección de memoria que consta de dos registros, base y límite, se utiliza para:",
+  opts:["Proteger el código del Sistema Operativo cargado en memoria y a los programas de usuario","Proteger el código del Sistema Operativo cargado en memoria","Proteger únicamente a los programas de usuario"], ans:0,
+  exp:"Cada proceso queda limitado a su zona: no puede acceder ni al SO ni a otros programas de usuario." },
+
+{ id:"bl2", tema:"mem", tipo:"single",
+  q:"(Variante) El esquema de protección de memoria que consta de dos registros, base y límite, se utiliza para:",
+  opts:["Sistemas Operativos con multiprogramación y administración de memoria con particiones variables","Sistemas Operativos sin multiprogramación","Sistemas Operativos con multiprogramación y administración de memoria con particiones variables o fijas"], ans:0,
+  exp:"Clave de la autoevaluación 3 de memoria: base y límite corresponde a <b>particiones variables</b> con multiprogramación (en particiones fijas se trabaja con registros límite inferior/superior por partición).",
+  nota:"Ojo, es la misma consigna que la anterior pero con otras opciones. Leé las opciones antes de responder de memoria." },
+
+{ id:"mft1", tema:"mem", tipo:"single",
+  q:"Si la memoria se asigna mediante Particiones Fijas (MFT) con cola única, y recorrido de cola en caso de que no sea posible asignar una partición al proceso ubicado en el tope, puede producirse:",
+  opts:["Sólo fragmentación interna","Sólo fragmentación externa","Fragmentación interna y externa","No se producirá fragmentación"], ans:0,
+  exp:"En particiones fijas el espacio sobrante dentro de cada partición es fragmentación <b>interna</b>; el recorrido de cola evita que una partición quede vacía mientras haya un proceso que entre." },
+
+{ id:"lst1", tema:"mem", tipo:"single",
+  q:"Si la asignación de particiones, utilizando Particiones Variables, se administra mediante listas ordenadas de menor a mayor según su tamaño, se privilegia:",
+  opts:["Únicamente la velocidad en la asignación","La velocidad en la asignación y la disminución de la fragmentación interna","La velocidad en la asignación y la posibilidad de crecimiento del proceso","Únicamente la disminución de la fragmentación interna","Únicamente la posibilidad de crecimiento del proceso"], ans:0,
+  exp:"Ordenada de menor a mayor, el primer hueco que entra es el mejor (best fit): asignación rápida. Pero en particiones variables <b>no hay fragmentación interna</b>, y el hueco sobrante tan chico genera más fragmentación externa." },
+
+{ id:"part1", tema:"mem", tipo:"single", freq:true, ctx:PART_Q3,
+  q:"¿Qué procesos se encuentran en la Cola de Listos y cuál en Ejecución en el instante 3?",
+  opts:["En Ejecución P2; en Listos P1 y P4 (el orden depende de a quién se le dé prioridad)","En Ejecución P2; en Listos P3, P4 y P1","En Ejecución P1; en Listos P2 y P4","En Ejecución P2; en Listos P1 y P3"], ans:0,
+  exp:"Mejor ajuste: P1→200, P2→100. P3 (75) no entra en la de 50 y las otras están ocupadas, así que espera en Nuevos. P4 (40)→50 al llegar en t=3. P1 ejecuta 0–3 y vuelve a Listos justo cuando llega P4; P2 pasa a Ejecución. Con 3 particiones, como máximo hay 2 en Listos y 1 ejecutando.",
+  nota:"Feedback del docente: si se prioriza al nuevo, Listos = P1, P4 (P4 en el tope); si se prioriza al que ya se ejecutó, Listos = P4, P1. En ambos casos <b>P2 en Ejecución</b>. Un alumno puso P2-P3-P4-P1 en Listos y le pusieron 1/5: <b>P3 no puede estar porque no tiene partición</b>." },
+
+{ id:"part2", tema:"mem", tipo:"single", freq:true, ctx:PART_Q3,
+  q:"¿Existe fragmentación interna en el instante 4? ¿De cuánto es?",
+  opts:["Sí, 100 Kb","Sí, 50 Kb","Sí, 135 Kb","No existe"], ans:0,
+  exp:"En memoria: P1 en 200 (sobran 50), P2 en 100 (sobran 40), P4 en 50 (sobran 10). Total = <b>100 Kb</b>.",
+  nota:"En la revisión de 2024 el alumno llegó a 100 pero puso \"P3 40/50\": es <b>P4</b> el que está en la partición de 50. P3 sigue sin memoria." },
+
+{ id:"part3", tema:"mem", tipo:"single", ctx:PART_Q4,
+  q:"¿Qué hay en Listos y en Ejecución en el instante 3, y cuánta fragmentación interna hay en el instante 4?",
+  opts:["Ejecución P2; Listos P3 y P4; FI = 175 Kb","Ejecución P2; Listos P3, P1; FI = 295 Kb","Ejecución P1; Listos P2, P3; FI = 100 Kb","Ejecución P2; Listos P4; FI = 50 Kb"], ans:0,
+  exp:"P1 (TI=3) ejecuta 0–3 y <b>termina</b>, liberando la de 200. Ahí entra P3 (75) en la de 200 (la de 100 la tiene P2) y P4 (40) en la de 50. P2 pasa a Ejecución. FI: P2=40, P3=125, P4=10 → <b>175 Kb</b>." },
+
+{ id:"part4", tema:"mem", tipo:"single", freq:true, ctx:PART_160,
+  q:"¿Qué hay en Listos y en Ejecución en el instante 2, y cuánta fragmentación interna hay en el instante 4?",
+  opts:["Ejecución P2; Listos P3 y P1; FI = 130 Kb","Ejecución P2; Listos P1, P3 y P4; FI = 140 Kb","Ejecución P1; Listos P2 y P3; FI = 130 Kb","Ejecución P3; Listos P1 y P2; FI = 90 Kb"], ans:0,
+  exp:"Solo entran 3 procesos (3 particiones): P1, P2 y P3; P4 espera. RR q=2: P1 ejecuta 0–2; en t=2 la cola es P2, P3 (llegó en 1), P1 (vuelve). Ejecuta P2. FI = 130 Kb tanto con Best Fit (P1=10, P2=80, P3=40) como con First Fit (P1=50, P2=40, P3=40).",
+  nota:"Un alumno puso 4 procesos en Listos y le pusieron 0/5. Nunca puede haber más procesos en memoria que particiones." },
+
+{ id:"part5", tema:"mem", tipo:"single", ctx:PART_160,
+  q:"Con los mismos datos, ¿qué hay en Listos y en Ejecución en el instante 8, y cuánta FI hay en el instante 9?",
+  opts:["Ejecución P2; Listos P3, P1; FI = 130 Kb","Ejecución P1; Listos P2, P3; FI = 130 Kb","Ejecución P2; Listos P3, P4; FI = 140 Kb","Ejecución P3; Listos P1, P2; FI = 90 Kb"], ans:0,
+  exp:"0–2 P1, 2–4 P2, 4–6 P3, 6–8 P1. En t=8 ejecuta P2 y en Listos quedan P3 y luego P1. Nadie terminó todavía, así que en t=9 siguen P1, P2, P3 en memoria: FI = 130 Kb." },
+
+{ id:"jer1", tema:"mem", tipo:"single",
+  q:"En el concepto de Jerarquías de Memoria, la combinación entre Memoria caché y Memoria Principal se considera una solución de compromiso con:",
+  opts:["Velocidad de acceso a instrucciones y datos","Capacidad para albergar mayor cantidad de procesos","Velocidad de acceso y capacidad para albergar mayor cantidad de procesos"], ans:0,
+  exp:"Caché ↔ MP = <b>velocidad</b>. MP ↔ memoria secundaria = <b>capacidad</b>." },
+
+{ id:"jer2", tema:"mem", tipo:"single",
+  q:"En el concepto de Jerarquías de Memoria, la combinación entre Memoria secundaria y Memoria Principal se considera una solución de compromiso con:",
+  opts:["Capacidad para albergar mayor cantidad de procesos","Velocidad de acceso a instrucciones y datos","Velocidad de acceso y capacidad para albergar mayor cantidad de procesos"], ans:0,
+  exp:"La memoria secundaria permite tener más procesos de los que entran en MP (memoria virtual / swapping)." },
+
+// ───────────────────────── PAGINACIÓN Y MV
+{ id:"pcbp1", tema:"pag", tipo:"single", freq:true,
+  q:"En un esquema de administración de memoria con paginación, en el PCB se guarda:",
+  opts:["El puntero a la tabla de páginas","La tabla de páginas del proceso","La dirección de la primera página asignada","La lista de páginas asignadas al proceso"], ans:0,
+  exp:"Ese valor se copia a un registro de la CPU cuando el proceso es elegido para ejecutarse." },
+
+{ id:"pcbs1", tema:"pag", tipo:"single",
+  q:"En un esquema de administración de memoria con segmentación, en el PCB se guarda:",
+  opts:["El puntero a la tabla de segmentos","El puntero a la tabla de segmentos y el tamaño del segmento","La dirección de inicio del segmento y el tamaño del segmento"], ans:0,
+  exp:"Igual que en paginación: el PCB guarda el puntero a la tabla. Base y límite de cada segmento están <i>en</i> la tabla de segmentos." },
+
+{ id:"tpi1", tema:"pag", tipo:"tf", freq:true,
+  q:"Las tablas de páginas invertidas tienen tantas entradas como páginas virtuales pueda direccionar un proceso.",
+  ans:false,
+  exp:"La ventaja de las TP invertidas es justamente que tienen tantas entradas como <b>páginas físicas (marcos)</b>, que siempre son menos que el total de páginas virtuales." },
+
+{ id:"vi1", tema:"pag", tipo:"single", freq:true,
+  q:"Cuando el bit válido-inválido de una entrada de la tabla de páginas está en INVÁLIDO significa que:",
+  opts:["La página no pertenece al espacio lógico de direcciones del proceso","La página no está cargada en memoria","La página no fue referenciada recientemente"], ans:0,
+  exp:"No confundir: <b>válido/inválido</b> = ¿pertenece al espacio lógico? · <b>presente/ausente</b> = ¿está cargada en MP?" },
+
+{ id:"vi2", tema:"pag", tipo:"single",
+  q:"Cuando el bit válido-inválido de una entrada de la tabla de páginas está en VÁLIDO significa que:",
+  opts:["La página pertenece al espacio lógico de direcciones del proceso","La página está cargada en memoria","La página no pertenece al espacio lógico de direcciones del proceso","La página fue referenciada recientemente"], ans:0,
+  exp:"Válido = pertenece al espacio lógico. Que esté cargada lo indica el bit presente/ausente." },
+
+{ id:"vi3", tema:"pag", tipo:"single",
+  q:"El bit válido/inválido se utiliza para:",
+  opts:["Identificar las páginas que pertenecen al espacio lógico de direcciones del proceso","Identificar las páginas que se encuentran cargadas en memoria principal y las que no","Identificar al proceso que se está ejecutando"], ans:0,
+  exp:"Válido/inválido → espacio lógico." },
+
+{ id:"pa1", tema:"pag", tipo:"single",
+  q:"El bit presente/ausente se utiliza para:",
+  opts:["Identificar las páginas que se encuentran cargadas en memoria principal y las que no","Identificar las páginas que pertenecen al espacio lógico de direcciones del proceso","Identificar al proceso que se está ejecutando"], ans:0,
+  exp:"Presente/ausente → ¿está en MP?",
+  nota:"En la autoevaluación 2023 se respondió \"identificar al proceso que se está ejecutando\" y era incorrecto." },
+
+{ id:"pa2", tema:"pag", tipo:"single",
+  q:"Cuando el bit presente-ausente de una entrada de la tabla de páginas está en ausente significa que:",
+  opts:["La página no está cargada en memoria","La página no está en el espacio lógico de direcciones del proceso","La página no fue referenciada recientemente","La página no fue modificada"], ans:0,
+  exp:"Ausente = no está en MP; si se la referencia, se produce un fallo de página." },
+
+{ id:"ml1", tema:"pag", tipo:"single", freq:true,
+  q:"En un sistema que utiliza paginación multinivel, ¿cuáles tablas de página están cargadas en memoria?",
+  opts:["La tabla de 1er nivel y las tablas de 2do nivel que direccionan páginas en uso","La tabla de 1er nivel y todas las tablas de 2do nivel","La tabla de 1er nivel y las primeras n tablas de 2do nivel","Ninguna de las opciones propuestas"], ans:0,
+  exp:"Esa es la ventaja de la paginación multinivel: no hace falta tener toda la tabla de páginas en memoria, solo las de 2do nivel que se usan." },
+
+{ id:"ml2", tema:"pag", tipo:"single",
+  q:"En un sistema que utiliza paginación multinivel con 2 niveles, ¿cuántos campos son requeridos para el direccionamiento?",
+  opts:["3 campos: uno que se utiliza como desplazamiento en la TP de 1er nivel, otro que se usa como desplazamiento en la TP del 2do nivel, y el desplazamiento propiamente dicho",
+        "3 campos: uno que se utiliza como puntero a la TP de 1er nivel, otro que se usa como puntero a la TP del 2do nivel, y el desplazamiento propiamente dicho",
+        "2 campos: página y desplazamiento","Ninguna de las opciones propuestas"], ans:0,
+  exp:"Los campos de la dirección son <b>desplazamientos (índices)</b> dentro de cada tabla. El puntero al inicio de la TP de 1er nivel está en un registro, y el de la de 2do nivel se obtiene de la entrada de 1er nivel.",
+  nota:"En la revisión de 2015 el alumno eligió la de \"puntero\" y era incorrecta. La diferencia está en una sola palabra." },
+
+{ id:"win1", tema:"pag", tipo:"single", freq:true,
+  ctx:`<pre class="flow">Esquema de paginación de Windows (32 bits)
+
+          Directorio de Páginas (0 … 1023)
+             │                     │
+      Tabla de Páginas      Tabla de Páginas
+        (0 … 1023)            (0 … 1023)
+        │       │              │       │
+     Página … Página        Página … Página</pre>`,
+  q:"Este es el esquema de paginación de Windows. Indicar a qué modelo corresponde:",
+  opts:["Multinivel de 2 niveles","Paginación simple","Multinivel de 3 niveles"], ans:0,
+  exp:"1er acceso: directorio de páginas (obtiene el inicio de la TP). 2do acceso: la TP (obtiene el marco). 3er acceso: la instrucción o el dato." },
+
+{ id:"lin1", tema:"pag", tipo:"single", freq:true,
+  ctx:`<pre class="flow">Dirección lineal:  [ Dir Global | Dir Intermedio | Tabla | Desplazamiento ]
+
+Directorio Global ─▶ Directorio Intermedio ─▶ Tabla de Páginas ─▶ Página</pre>`,
+  q:"Linux utiliza la paginación multinivel que se muestra. ¿Cuántos accesos a memoria se requieren para acceder a la instrucción o dato que se busca?",
+  opts:["4 accesos","3 accesos","2 accesos"], ans:0,
+  exp:"1) Directorio Global → 2) Directorio Intermedio → 3) Tabla de Páginas (obtiene el marco) → 4) la instrucción o dato. También analizá la ventaja: solo se cargan las tablas que se usan." },
+
+{ id:"team1", tema:"pag", tipo:"single", freq:true,
+  q:"Si se utiliza un esquema de Paginación de 2 niveles con Registros Asociativos, ¿cómo se calcula el TEAM?",
+  opts:["TEAM = HR (TAMA + 2 TAM) + (1−HR) (TAMA + 3 TAM)","TEAM = 3 TAM","TEAM = HR (TAMA + 3 TAM) + (1−HR) (TAMA + 4 TAM)"], ans:0,
+  exp:"Con fallo en la memoria asociativa: TAMA + 2 accesos a tablas + 1 al dato = TAMA + 3 TAM. Es la clave de la cátedra (2024).",
+  nota:"En la bibliografía (Silberschatz) un acierto en TLB suele contarse como TAMA + TAM. Como esa opción no aparece, la única válida es esta (la de la cátedra)." },
+
+{ id:"team2", tema:"pag", tipo:"single", freq:true,
+  q:"El esquema de traducción de direcciones con memoria asociativa, donde se producen fallos de página y NO se dispone de bit M, implica que el TEAM sea igual a:",
+  opts:["HR (TAMA + TAM) + (1−HR) [ (1−p) (TAMA + 2 TAM) + p (TAMA + 2 TAM + TSFP) ]",
+        "HR (TAMA + TAM) + (1−HR) [ (1−p) (TAMA + 2 TAM) + p [ q (TAMA + 2 TAM + TSFP1) + (1−q) (TAMA + 2 TAM + TSFP2) ] ]",
+        "HR · TAMA + (1−HR) · 2 TAM"], ans:0,
+  exp:"Sin bit M hay un solo TSFP (siempre se hace swap out de la víctima). La fórmula con q, TSFP1 y TSFP2 es la que corresponde <b>con</b> bit M.",
+  nota:"Ejercicio de 2020: TAM=150 ns, TAMA=20 ns, tsfp=7.500.000 ns, HR=80%, p=7,5%. Reemplazando: 0,8·(170) + 0,2·[0,925·(320) + 0,075·(320 + 7.500.000)]." },
+
+{ id:"team3", tema:"pag", tipo:"single", freq:true,
+  q:"Sistema con memoria caché (asociativa) y bit M: TAM=150 ns, TAMA=20 ns, tsfp1 (M=0)=5.500.000 ns, tsfp2 (M=1)=7.500.000 ns, HR=80%. Del % de veces que no se encuentra, el 7,5% (p) de las veces hay fallo de página, de los cuales el 75% de las veces la página no fue modificada. ¿Cuál es la fórmula del TEAM?",
+  opts:["HR (TAMA+TAM) + (1−HR) [ (1−p)(TAMA+2TAM) + p [ 0,75 (TAMA+2TAM+TSFP1) + 0,25 (TAMA+2TAM+TSFP2) ] ]",
+        "HR (TAMA+TAM) + (1−HR) [ (1−p)(TAMA+2TAM) + p [ 0,25 (TAMA+2TAM+TSFP1) + 0,75 (TAMA+2TAM+TSFP2) ] ]",
+        "HR (TAMA+TAM) + (1−HR) [ (1−p)(TAMA+2TAM) + p (TAMA+2TAM+TSFP2) ]",
+        "HR (TAMA+2TAM) + (1−HR) [ p (TAMA+TSFP1) + (1−p)(TAMA+TSFP2) ]"], ans:0,
+  exp:"El 75% <b>no modificada</b> (M=0) usa el tsfp menor (TSFP1 = 5.500.000) porque no hace falta swap out. El 25% restante (M=1) usa TSFP2.",
+  nota:"Comentario del docente: cuando no se especifica lo contrario, el TSFP ya incluye TAMA+2TAM; igual no lo consideran error si lo sumás aparte. Con los datos, TEAM ≈ 90.200 ns." },
+
+{ id:"sob1", tema:"pag", tipo:"single",
+  q:"En un sistema con paginación donde el tamaño promedio de un proceso es s bytes, el tamaño de página es p bytes y cada entrada de página requiere e bytes, la Sobrecarga se define como:",
+  opts:["El espacio desperdiciado por la tabla de páginas y la fragmentación interna: Sobrecarga = se/p + p/2",
+        "El espacio desperdiciado por la tabla de páginas y la fragmentación interna: Sobrecarga = se/p + p",
+        "El tiempo que implican los múltiples accesos a memoria: Sobrecarga = p·(ma+m) + (1−p)·(ma+2m)",
+        "Ninguna de las respuestas es correcta"], ans:0,
+  exp:"s/p páginas × e bytes = tamaño de la TP. En promedio se desperdicia <b>media página</b> (p/2) por fragmentación interna." },
+
+{ id:"bits1", tema:"pag", tipo:"single",
+  q:"En un esquema de paginación de dos niveles con formato P1 = 3 bits, P2 = 5 bits, Desplazamiento = 11 bits, y en el que cada dirección de memoria es de 1 byte:",
+  opts:["El tamaño de memoria virtual es de 512 Kbytes","El tamaño de memoria virtual es de 256 Kbytes","El tamaño de memoria virtual es de 1024 Kbytes"], ans:0,
+  exp:"3 + 5 + 11 = 19 bits → 2<sup>19</sup> = 524.288 bytes = <b>512 KB</b>.",
+  nota:"En la autoevaluación 2023 se marcó 256 KB y era incorrecto." },
+
+{ id:"bits2", tema:"pag", tipo:"single",
+  q:"Si el modelo anterior (P1: 3 bits, P2: 5 bits, Desplazamiento: 11 bits) debiera modificarse para implementar paginación de un solo nivel, el campo de página:",
+  opts:["Tendría un tamaño de 8 bits manteniendo el campo desplazamiento","Tendría un tamaño de 5 bits con un incremento del campo desplazamiento","Tendría un tamaño de 10 bits con una disminución del campo desplazamiento"], ans:0,
+  exp:"El tamaño de página no cambia (11 bits de desplazamiento) y P1+P2 = 3+5 = <b>8 bits</b> de página." },
+
+{ id:"pv3", tema:"pag", tipo:"single",
+  q:"Una página virtual siempre tiene:",
+  opts:["Igual tamaño que la página física","Menor o igual tamaño que la página física","Mayor tamaño que la página física","Menor tamaño que la página física"], ans:0,
+  exp:"Página y marco tienen el mismo tamaño: por eso el desplazamiento se copia sin cambios." },
+
+{ id:"dem1", tema:"pag", tipo:"single",
+  q:"La paginación bajo demanda consiste en:",
+  opts:["Llevar a memoria únicamente las páginas que son referenciadas por el proceso","Llevar todas las páginas a memoria al momento que se carga el proceso","Llevar las últimas páginas del proceso a memoria"], ans:0,
+  exp:"Una página solo se carga cuando se la referencia (y se produce el fallo)." },
+
+{ id:"mv1", tema:"pag", tipo:"multi",
+  q:"La memoria virtual tiene como principales objetivos:",
+  opts:["Simular que se dispone de mayor tamaño de Memoria Física que el real","Incrementar el grado de multiprogramación","Disminuir los problemas de fragmentación interna y externa","Disminuir el tiempo de ejecución de los procesos"], ans:[0,1],
+  exp:"La MV no acelera los procesos (los fallos de página cuestan) ni está pensada para la fragmentación." },
+
+{ id:"prep1", tema:"pag", tipo:"multi", freq:true,
+  q:"¿En qué caso/s es ventajosa la Prepaginación?",
+  opts:["En los que el programa NO necesita un número muy elevado de páginas","En que el costo de la prepaginación sea menor que el de atender los fallos de páginas correspondientes","En los que el programa SÍ necesita un número muy elevado de páginas","Para programas modulares","Todas las respuestas son correctas"], ans:[0,1],
+  exp:"Prepaginar conviene si traer las páginas de antemano cuesta menos que atender los fallos que evitaría, y si no son tantas páginas (si no, se cargan muchas que quizá no se usen).",
+  nota:"En 2019 se marcó \"Todas las respuestas son correctas\" y fue 0." },
+
+{ id:"tam1", tema:"pag", tipo:"multi",
+  q:"¿Cuáles de las siguientes afirmaciones implican desventajas atribuidas a tamaños PEQUEÑOS de página?",
+  opts:["Incremento del tamaño de la tabla de páginas","El tiempo de la E/S para leer o escribir la misma cantidad de información es mayor","Aumenta la fragmentación interna; en general la mitad de la última página de cada proceso se desperdicia","Minimiza el número de fallos de página"], ans:[0,1],
+  exp:"Páginas chicas → más entradas en la TP y más operaciones de E/S (cada una con su tiempo de búsqueda y latencia). La fragmentación interna crece con páginas <b>grandes</b>." },
+
+{ id:"bm1", tema:"pag", tipo:"single",
+  q:"Ante un fallo de página, si se dispone de Bit M:",
+  opts:["Permite ahorrar intercambio de páginas entre Memoria Principal y Disco si la página no fue modificada","Permite ahorrar intercambio de páginas entre Memoria Principal y Disco si la página fue modificada","No es útil para ahorrar intercambios innecesarios"], ans:0,
+  exp:"Si la víctima no fue modificada (M=0), la copia en disco ya está actualizada: no hace falta swap out." },
+
+{ id:"fp1", tema:"pag", tipo:"single", freq:true, ctx:FAULT_FLOW,
+  q:"El gráfico anterior corresponde a:",
+  opts:["Algoritmo de servicio de fallo de página sin ahorro de intercambios innecesarios entre Memoria Principal y almacenamiento secundario","Algoritmo de servicio de fallo de página con ahorro de intercambios innecesarios entre Memoria Principal y almacenamiento secundario","Ninguna de las opciones propuestas"], ans:0,
+  exp:"El diagrama siempre hace swap out de la víctima: no consulta el <b>bit M</b> (bit sucio), así que no ahorra el swap out cuando la víctima no fue modificada." },
+
+{ id:"fp2", tema:"pag", tipo:"single",
+  q:"Si se debe incorporar el bit M al algoritmo de tratamiento de Fallo de Página, ¿cuál es la modificación que debe introducirse?",
+  opts:["A continuación del algoritmo de reemplazo, verificar M. Si M=0 continuar a partir de Swap in página requerida. Si M=1 realizar Swap out de la víctima y luego Swap in",
+        "A continuación del algoritmo de reemplazo, verificar M. Si M=1 continuar a partir de Swap in página requerida. Si M=0 realizar Swap out de la víctima y luego Swap in",
+        "Antes de ejecutar el algoritmo de reemplazo se verifica el bit M de todas las páginas en memoria. Las que tienen M=1 se copian al disco y se pone M a 0. Luego se corre el algoritmo"], ans:0,
+  exp:"M=1 → la víctima fue modificada → hay que guardarla (swap out). M=0 → se puede pisar directamente." },
+
+{ id:"pff1", tema:"pag", tipo:"single", freq:true,
+  q:"Con la estrategia de frecuencia de fallos de página (PFF) para prevenir el trashing, si el PFF está POR ENCIMA del límite superior, el sistema deberá:",
+  opts:["Asignar mayor cantidad de frames (marcos) al proceso","Desasignar frames (marcos) al proceso","Aumentar el nivel de multiprogramación incorporando más procesos al sistema"], ans:0,
+  exp:"Muchos fallos = el proceso tiene menos marcos de los que necesita." },
+
+{ id:"pff2", tema:"pag", tipo:"single",
+  q:"Con la estrategia PFF, si el PFF está POR DEBAJO del límite inferior, el sistema deberá:",
+  opts:["Desasignar frames (marcos) al proceso","Asignar mayor cantidad de frames (marcos) al proceso","No debe realizar ninguna acción"], ans:0,
+  exp:"Pocos fallos = tiene más marcos de los que requiere; se le pueden quitar para dárselos a otros.",
+  nota:"En 2020 se respondió \"asignar más frames\" y era incorrecto." },
+
+{ id:"dma1", tema:"pag", tipo:"single", freq:true,
+  q:"Un proceso emite una E/S para leer en un buffer dentro de su espacio de direcciones. Mientras espera, la CPU se asigna a otro proceso, que tiene un fallo de página; con reemplazo global, la página del buffer podría ser elegida como víctima. Si un dispositivo está transfiriendo por DMA a esa página, parte de los datos se escribirían en el buffer y parte sobre la página recién cargada. ¿Es posible que ocurra? Si así fuera, ¿qué soluciones hay?",
+  opts:["Asociar un bit de bloqueo a cada uno de los marcos que participa en la E/S","No es un problema","No existe solución a este problema; si ocurre, la E/S quedará interrumpida","Ninguna de las respuestas es correcta"], ans:0,
+  exp:"Si el marco está bloqueado no puede ser elegido para reemplazo. Cuando la E/S termina, se desbloquea." },
+
+{ id:"ws1", tema:"pag", tipo:"single", freq:true, ctx:WS_REF,
+  q:"Si para prevenir el trashing se utiliza el modelo del Conjunto de Trabajo (Working Set), ¿cuál es el conjunto de trabajo en t2 con ventana Δ=3 y con ventana Δ=7?",
+  opts:["Δ=3 → {2, 4} · Δ=7 → {1, 2, 3, 4}","Δ=3 → {4} · Δ=7 → {2, 3, 4}","Δ=3 → {2, 4} · Δ=7 → {1, 2, 4}","Δ=3 → {1, 2, 4} · Δ=7 → {1, 2, 3, 4, 5}"], ans:0,
+  exp:"Últimas 3 referencias hasta t2: 2, 4, 4 → {2, 4}. Últimas 7: 3, 1, 1, 2, 2, 4, 4 → {1, 2, 3, 4}.<br><b>Técnica:</b> se basa en el modelo de localidad. Se asegura a cada proceso que, al correr el algoritmo de reemplazo, <b>no se elegirán páginas de su conjunto de trabajo</b>.",
+  nota:"En el parcial también piden \"explique en qué consiste\": en 2024 dieron la mitad del puntaje por no explicar para qué sirve conocer el conjunto de trabajo." },
+
+{ id:"w10", tema:"pag", tipo:"multi", freq:true,
+  q:"En WINDOWS 10, cuando se produce un fallo de página, el SO trae la página requerida y n páginas alrededor. A los procesos se les asigna un valor de agrupamiento mínimo (páginas garantizadas) y uno máximo. Cuando la memoria disponible cae por debajo de un umbral, se recortan las páginas de los procesos que están por encima de su mínimo. ¿A qué estrategias vistas en teoría se asemejan?",
+  opts:["Prepaginación","Modelo del Working Set (Conjunto Activo) modificado","LRU para reemplazo de páginas","Paginación por demanda","FIFO para reemplazo de páginas"], ans:[0,1,2],
+  exp:"Traer n páginas alrededor = <b>prepaginación</b>. Mínimo y máximo de páginas por proceso = <b>working set modificado</b>. Se conservan las páginas usadas recientemente y se reemplazan las menos usadas = <b>LRU</b>." },
+
+// ───────────────────────── REEMPLAZO
+{ id:"clk1", tema:"reem", tipo:"single", freq:true,
+  ctx:`<p class="muted">Algoritmo del reloj: las páginas forman una lista circular y una manecilla apunta a una de ellas. Cuando ocurre un fallo de página, se inspecciona la página a la que apunta la manecilla; la acción depende del bit R.</p>`,
+  q:"Indicar cuál es la explicación correcta sobre el funcionamiento del algoritmo del reloj (2da chance):",
+  opts:["Si R=0 la página es seleccionada como víctima porque se supone que si no fue referenciada recientemente no es necesaria. Si R=1 es puesta a 0 pero no es reemplazada porque se supone que al haber sido referenciada recientemente aún es necesaria. El administrador de memoria continúa buscando",
+        "Si R=0 la página es seleccionada como víctima porque se supone que si no fue referenciada recientemente no es necesaria. Si R=1 no es reemplazada (y mantiene su valor) porque se supone que al haber sido referenciada recientemente aún es necesaria. El administrador de memoria continúa buscando",
+        "Si el bit R=0 esa página es reemplazada. Si el bit R=1 se pone a 0 sólo si el bit M está en 0. En caso contrario mantiene su valor y el administrador continúa buscando una página con bit R=0"], ans:0,
+  exp:"La clave es que con R=1 el bit <b>se pone en 0</b> (se le da la segunda oportunidad). Si mantuviera su valor, la manecilla podría girar para siempre." },
+
+{ id:"clk2", tema:"reem", tipo:"single",
+  q:"El algoritmo de la 2da chance (o 2da oportunidad, o algoritmo del reloj) utiliza:",
+  opts:["El Bit R","El Bit M","Los bits R y M","El Bit Presente/Ausente"], ans:0,
+  exp:"Solo mira el bit de referencia. El que usa R y M es el algoritmo de clases (NRU)." },
+
+{ id:"linx1", tema:"reem", tipo:"single", freq:true,
+  q:"El algoritmo de reemplazo de algunas versiones de Linux: cada entrada de la TP tiene un campo de edad de 8 bits que se incrementa en cada acceso. Linux recorre periódicamente las páginas y disminuye la edad de cada una. Una página con edad 0 es vieja y es la mejor víctima; cuanto mayor la edad, menos elegible. Este algoritmo se asemeja a:",
+  opts:["Algoritmo LRU (Menos Recientemente Usada)","Algoritmo LFU (Menos Frecuentemente Usada)","Algoritmo MFU (Más Frecuentemente Usada)"], ans:0,
+  exp:"La edad decae con el tiempo y sube con el uso reciente: aproxima <b>LRU</b>." },
+
+{ id:"lru1", tema:"reem", tipo:"single",
+  q:"El algoritmo LRU se implementa de acuerdo al siguiente criterio:",
+  opts:["Una página usada recientemente puede volver a utilizarse en breve","Una página que no se utilizará durante un largo período de tiempo es la mejor para seleccionar como víctima","Una página usada recientemente probablemente no será utilizada por largo tiempo"], ans:0,
+  exp:"LRU se basa en la localidad temporal. La opción b describe al algoritmo <b>óptimo</b>." },
+
+{ id:"tab1", tema:"reem", tipo:"match", freq:true, ctx:PAGE_TABLE,
+  q:"Memoria física con 4 marcos. Para cada página se indica el momento de carga, el tiempo del último acceso y los bits R y M (en marcas de reloj). ¿Qué página reemplaza cada algoritmo?",
+  choices:["Página 0","Página 1","Página 2","Página 3"],
+  items:[["¿Cuál página es reemplazada por LRU?","Página 1"],["¿Cuál página es reemplazada por FIFO?","Página 2"],["¿Cuál página es reemplazada por el algoritmo de 2da chance?","Página 0"],["¿Cuál página es reemplazada por el algoritmo de clases?","Página 0"]],
+  exp:"<b>LRU</b>: menor última referencia → P1 (260). <b>FIFO</b>: cargada primero → P2 (120). <b>2da chance</b>: orden FIFO 2→0→3→1; P2 tiene R=1, se pone en 0 y sigue; P0 tiene R=0 → víctima <b>P0</b>. <b>Clases (NRU)</b>: P0 es clase 0 (R=0, M=0) → <b>P0</b>.",
+  nota:"En 2019 un alumno puso clases → Página 1 y LRU → Página 3: el error típico es mirar el tiempo de carga en vez de la última referencia." },
+];
+
+</script>
+<script>
+(function(){
+"use strict";
+const $app = document.getElementById("app");
+const LS_STATS="so1.stats.v1", LS_PREFS="so1.prefs.v1";
+const store = {
+  get(k,d){ try{ const v=localStorage.getItem(k); return v?JSON.parse(v):d; }catch(e){ return d; } },
+  set(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} }
+};
+let stats = store.get(LS_STATS,{});
+let prefs = Object.assign({temas:Object.keys(TEMAS), freq:false, open:true, size:20, shuffleQ:true}, store.get(LS_PREFS,{}));
+
+// ---------- theme
+const themeBtn=document.getElementById("themeBtn");
+function applyTheme(t){ if(t) document.documentElement.setAttribute("data-theme",t); else document.documentElement.removeAttribute("data-theme"); }
+applyTheme(store.get("so1.theme",null));
+themeBtn.onclick=()=>{
+  const cur=document.documentElement.getAttribute("data-theme") || (matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light");
+  const nx=cur==="dark"?"light":"dark"; applyTheme(nx); store.set("so1.theme",nx);
+};
+document.getElementById("homeBtn").onclick=()=>{ stopTimer(); renderHome(); };
+
+// ---------- helpers
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const shuffle=a=>{ a=a.slice(); for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]];} return a; };
+const isAuto=q=>q.tipo!=="open";
+const LETTERS="abcdefghij";
+function pinnedLast(t){ return /^(Ninguna|Todas)/i.test(t); }
+function makeOrder(q){
+  if(q.tipo==="single"||q.tipo==="multi"){
+    const idx=q.opts.map((_,i)=>i);
+    const free=idx.filter(i=>!pinnedLast(q.opts[i])), pin=idx.filter(i=>pinnedLast(q.opts[i]));
+    return shuffle(free).concat(pin);
+  }
+  if(q.tipo==="match"){
+    const ch=q.choices || [...new Set(q.items.map(it=>it[1]))];
+    return q.choices ? ch.slice() : shuffle(ch);
+  }
+  return null;
+}
+function correctSet(q){ return q.tipo==="multi"? q.ans : [q.ans]; }
+
+// ---------- grading
+function grade(q,r){
+  if(r==null) return 0;
+  switch(q.tipo){
+    case "single": return r===q.ans?1:0;
+    case "tf": return r===(q.ans?0:1)?1:0;
+    case "multi": {
+      const sel=r||[]; const hits=sel.filter(i=>q.ans.includes(i)).length; const wrong=sel.length-hits;
+      return Math.max(0,(hits-wrong)/q.ans.length);
+    }
+    case "match": { let ok=0; q.items.forEach((it,i)=>{ if(r[i]===it[1]) ok++; }); return ok/q.items.length; }
+    case "cloze": { let ok=0; q.blanks.forEach((b,i)=>{ if(r[i]===b.ans) ok++; }); return ok/q.blanks.length; }
+    case "open": return typeof r.self==="number"? r.self : 0;
+  }
+  return 0;
+}
+function answered(q,r){
+  if(r==null) return false;
+  if(q.tipo==="multi") return r.length>0;
+  if(q.tipo==="match") return q.items.every((_,i)=>r[i]);
+  if(q.tipo==="cloze") return q.blanks.every((_,i)=>r[i]!=null);
+  if(q.tipo==="open") return typeof r.self==="number";
+  return true;
+}
+function recordStat(q,score){
+  const s=stats[q.id]||{n:0,ok:0,last:0};
+  s.n++; s.ok+=score; s.last=score; stats[q.id]=s; store.set(LS_STATS,stats);
+}
+function failedIds(){ return Q.filter(q=>stats[q.id] && stats[q.id].last<1).map(q=>q.id); }
+
+// ---------- state
+let S=null, timerId=null;
+function stopTimer(){ if(timerId){ clearInterval(timerId); timerId=null; } }
+
+function poolFromPrefs(forExam){
+  return Q.filter(q=>prefs.temas.includes(q.tema) && (!prefs.freq || q.freq) && (forExam? isAuto(q) : (prefs.open || isAuto(q))));
+}
+function start(mode){
+  stopTimer();
+  let list;
+  if(mode==="review"){ const f=new Set(failedIds()); list=Q.filter(q=>f.has(q.id)); list=shuffle(list); }
+  else if(mode==="exam"){ list=shuffle(poolFromPrefs(true)); const n=prefs.size==="all"?list.length:Math.min(+prefs.size,list.length); list=list.slice(0,n); }
+  else { list=poolFromPrefs(false); if(prefs.shuffleQ) list=shuffle(list); }
+  if(!list.length){ renderHome("No hay preguntas con esos filtros."); return; }
+  S={mode, list, i:0, resp:{}, checked:{}, scores:{}, order:{}, finished:false, t0:Date.now(), limit: mode==="exam"? list.length*90 : 0};
+  list.forEach(q=>S.order[q.id]=makeOrder(q));
+  if(mode==="exam") startTimer();
+  renderQuiz();
+}
+function startTimer(){
+  timerId=setInterval(()=>{
+    const el=document.getElementById("timer"); if(!S||S.finished){ stopTimer(); return; }
+    const left=S.limit-Math.floor((Date.now()-S.t0)/1000);
+    if(el) el.textContent=fmt(Math.max(0,left));
+    if(left<=0){ stopTimer(); finishExam(true); }
+  },1000);
+}
+const fmt=s=>`${Math.floor(s/60)}:${String(s%60).padStart(2,"0")}`;
+
+// ---------- HOME
+function renderHome(msg){
+  S=null; window.scrollTo(0,0);
+  const total=Q.length, auto=Q.filter(isAuto).length, freq=Q.filter(q=>q.freq).length, fixes=Q.filter(q=>q.nota&&/corregida/i.test(q.nota)).length;
+  const seen=Object.keys(stats).filter(id=>Q.some(q=>q.id===id)).length;
+  const failed=failedIds().length;
+  const counts={}; Object.keys(TEMAS).forEach(t=>counts[t]=Q.filter(q=>q.tema===t).length);
+  const sizeOpts=[10,20,30,"all"].map(v=>`<option value="${v}" ${String(prefs.size)===String(v)?"selected":""}>${v==="all"?"Todas":v+" preguntas"}</option>`).join("");
+  const topicRows=Object.keys(TEMAS).map(t=>{
+    const qs=Q.filter(q=>q.tema===t && stats[q.id]); if(!qs.length) return "";
+    const acc=qs.reduce((a,q)=>a+stats[q.id].last,0)/qs.length;
+    return `<div class="ts-row"><span>${TEMAS[t]}</span><div class="bar"><i style="width:${Math.round(acc*100)}%"></i></div><span class="v">${Math.round(acc*100)}%</span></div>`;
+  }).join("");
+  $app.innerHTML=`
+  <section class="hero">
+    <div class="kicker">Sistemas Operativos · UTN FRRe</div>
+    <h1>Practicá para el <em>1er parcial</em></h1>
+    <p class="lede">Preguntas que se repiten en los parciales de 2015 a 2024, con las respuestas verificadas una por una. Donde Moodle o un alumno se equivocó, está corregido y marcado.</p>
+    <div class="stats-strip">
+      <span class="pill"><b>${total}</b> preguntas</span>
+      <span class="pill"><b>${freq}</b> muy repetidas</span>
+      <span class="pill"><b>${total-auto}</b> a desarrollar</span>
+      <span class="pill"><b>${seen}</b> respondidas por vos</span>
+    </div>
+    ${msg?`<p class="note" style="margin-top:12px">${esc(msg)}</p>`:""}
+  </section>
+  <section class="modes">
+    <button class="mode primary" data-mode="practice"><span class="t">Práctica</span><span class="d">Respondés y ves al instante si está bien, con la explicación.</span><span class="tag">${poolFromPrefs(false).length} preguntas con tus filtros</span></button>
+    <button class="mode" data-mode="exam"><span class="t">Simulacro</span><span class="d">Preguntas al azar con tiempo. Ves la nota sobre 10 al terminar.</span><span class="tag">1:30 por pregunta</span></button>
+    <button class="mode" data-mode="review" ${failed?"":"disabled"}><span class="t">Repasar falladas</span><span class="d">Solo las que tuviste mal o a medias la última vez.</span><span class="tag">${failed} pendientes</span></button>
+  </section>
+  <section class="panel">
+    <h3>Temas <span><button class="linkish" id="allT">todos</button> · <button class="linkish" id="noneT">ninguno</button></span></h3>
+    <div class="chips" id="chips">${Object.keys(TEMAS).map(t=>`<button class="chip" data-t="${t}" aria-pressed="${prefs.temas.includes(t)}">${TEMAS[t]} <span class="n">${counts[t]}</span></button>`).join("")}</div>
+  </section>
+  <section class="panel">
+    <h3>Opciones</h3>
+    <div class="opts-row">
+      <label class="toggle"><input type="checkbox" id="optFreq" ${prefs.freq?"checked":""}> Solo las más repetidas</label>
+      <label class="toggle"><input type="checkbox" id="optOpen" ${prefs.open?"checked":""}> Incluir preguntas a desarrollar</label>
+      <label class="toggle"><input type="checkbox" id="optShuf" ${prefs.shuffleQ?"checked":""}> Mezclar orden</label>
+      <label class="toggle">Simulacro: <select class="sel" id="optSize">${sizeOpts}</select></label>
+    </div>
+  </section>
+  ${topicRows?`<section class="panel"><h3>Tu rendimiento por tema <button class="linkish" id="resetS">reiniciar</button></h3><div class="topic-stats">${topicRows}</div></section>`:""}
+  <p class="foot">Fuente: revisiones de parciales 2015, 2019, 2020, 2024 y autoevaluaciones 2023 de la cátedra. ${fixes} respuestas corregidas respecto de la clave de Moodle (marcadas con <span class="tag2 fix">corregida</span>). Tu progreso se guarda solo en este navegador. Atajos: <span class="kbd">1</span>–<span class="kbd">9</span> elegir · <span class="kbd">Enter</span> comprobar/siguiente · <span class="kbd">←</span><span class="kbd">→</span> navegar.</p>`;
+  $app.querySelectorAll(".mode").forEach(b=>b.onclick=()=>start(b.dataset.mode));
+  $app.querySelectorAll(".chip").forEach(b=>b.onclick=()=>{
+    const t=b.dataset.t; prefs.temas=prefs.temas.includes(t)?prefs.temas.filter(x=>x!==t):prefs.temas.concat(t); savePrefs(); renderHome();
+  });
+  $app.querySelector("#allT").onclick=()=>{ prefs.temas=Object.keys(TEMAS); savePrefs(); renderHome(); };
+  $app.querySelector("#noneT").onclick=()=>{ prefs.temas=[]; savePrefs(); renderHome(); };
+  $app.querySelector("#optFreq").onchange=e=>{ prefs.freq=e.target.checked; savePrefs(); renderHome(); };
+  $app.querySelector("#optOpen").onchange=e=>{ prefs.open=e.target.checked; savePrefs(); renderHome(); };
+  $app.querySelector("#optShuf").onchange=e=>{ prefs.shuffleQ=e.target.checked; savePrefs(); };
+  $app.querySelector("#optSize").onchange=e=>{ prefs.size=e.target.value; savePrefs(); };
+  const rs=$app.querySelector("#resetS"); if(rs) rs.onclick=()=>{ if(confirmReset()){ stats={}; store.set(LS_STATS,stats); renderHome(); } };
+}
+function confirmReset(){ const b=document.getElementById("resetS"); if(b.dataset.c){ return true; } b.dataset.c="1"; b.textContent="¿seguro? tocá de nuevo"; return false; }
+function savePrefs(){ store.set(LS_PREFS,prefs); }
+
+// ---------- QUIZ
+function hintFor(q){
+  return {single:"Seleccioná una", multi:"Seleccioná una o más", tf:"Verdadero o Falso", match:"Elegí la opción de cada fila", cloze:"Completá los espacios", open:"Pregunta a desarrollar · escribí tu respuesta y compará con la respuesta modelo"}[q.tipo];
+}
+function renderQuiz(){
+  const q=S.list[S.i], n=S.list.length, exam=S.mode==="exam";
+  const locked = exam ? S.finished : !!S.checked[q.id];
+  const show = locked;
+  const doneCount = Object.keys(exam?S.resp:S.checked).filter(id=>{ const qq=S.list.find(x=>x.id===id); return qq && (exam? answered(qq,S.resp[id]) : true); }).length;
+  const scoreSum=Object.values(S.scores).reduce((a,b)=>a+b,0), scoreN=Object.keys(S.scores).length;
+  const fixed = q.nota && /corregida/i.test(q.nota);
+  $app.innerHTML=`
+  <div class="qtop">
+    <span class="counter">${String(S.i+1).padStart(2,"0")} / ${n}</span>
+    <span class="tag2">${{practice:"Práctica",exam:"Simulacro",review:"Repaso"}[S.mode]}</span>
+    <div class="spacer" style="flex:1"></div>
+    ${exam && !S.finished?`<span class="timer" id="timer">${fmt(Math.max(0,S.limit-Math.floor((Date.now()-S.t0)/1000)))}</span>`:""}
+    ${!exam||S.finished?`<span class="score-badge">${scoreN?`${fmtScore(scoreSum)} / ${scoreN}`:"— / 0"}</span>`:""}
+  </div>
+  <div class="progress"><i style="width:${(doneCount/n)*100}%"></i></div>
+  <article class="card" id="card">
+    <div class="meta">
+      <span class="tag2">${TEMAS[q.tema]}</span>
+      ${q.freq?`<span class="tag2 freq">★ muy repetida</span>`:""}
+      ${fixed && show?`<span class="tag2 fix">corregida</span>`:""}
+    </div>
+    ${q.ctx?`<div class="ctx">${q.ctx}</div>`:""}
+    <div class="qtext">${q.q}</div>
+    <p class="hint">${hintFor(q)}</p>
+    <div id="body"></div>
+    <div id="fb"></div>
+    <div class="actions" id="actions"></div>
+  </article>
+  ${exam?`<div class="grid-nav" id="gridnav"></div>`:""}`;
+  renderBody(q, locked);
+  if(show) renderFeedback(q);
+  renderActions(q, locked);
+  if(exam) renderGrid();
+}
+const fmtScore=x=>Number.isInteger(x)?String(x):x.toFixed(2).replace(/\.?0+$/,"");
+
+function renderBody(q, locked){
+  const body=document.getElementById("body");
+  const r=S.resp[q.id];
+  const reveal=locked;
+  if(q.tipo==="single"||q.tipo==="multi"||q.tipo==="tf"){
+    const order = q.tipo==="tf"? [0,1] : S.order[q.id];
+    const labels = q.tipo==="tf"? ["Verdadero","Falso"] : q.opts;
+    const correct = q.tipo==="tf"? [q.ans?0:1] : correctSet(q);
+    const sel = q.tipo==="multi"? (r||[]) : (r==null?[]:[r]);
+    body.innerHTML=`<div class="options" role="${q.tipo==="multi"?"group":"radiogroup"}">${order.map((oi,pos)=>{
+      const picked=sel.includes(oi), isC=correct.includes(oi);
+      let cls="", mk="";
+      if(reveal){ if(isC&&picked){cls="is-ok";mk="✓";} else if(isC){cls="is-missed";mk="correcta";} else if(picked){cls="is-bad";mk="✗";} }
+      return `<button class="opt ${q.tipo==="multi"?"multi":"single"} ${cls}" data-oi="${oi}" aria-pressed="${picked}" ${reveal?"disabled":""}><span class="k">${q.tipo==="tf"?(oi===0?"V":"F"):LETTERS[pos]}</span><span class="lab">${esc(labels[oi])}</span>${mk?`<span class="mk">${mk}</span>`:""}</button>`;
+    }).join("")}</div>`;
+    if(!reveal) body.querySelectorAll(".opt").forEach(b=>b.onclick=()=>pick(q,+b.dataset.oi));
+  }
+  else if(q.tipo==="match"){
+    const choices=S.order[q.id]; const rr=r||{};
+    body.innerHTML=`<div class="match">${q.items.map((it,i)=>{
+      const v=rr[i]; let cls="", fix="";
+      if(reveal){ cls = v===it[1]?"is-ok":"is-bad"; if(v!==it[1]) fix=`<div class="fix">→ ${esc(it[1])}</div>`; }
+      const isLong = choices.some(c=>c.length>40);
+      return `<div class="mrow ${cls}" ${isLong?'style="grid-template-columns:1fr"':""}><div class="l">${esc(it[0])}</div><select data-i="${i}" ${reveal?"disabled":""} aria-label="Respuesta"><option value="">Elegir…</option>${choices.map(c=>`<option value="${esc(c)}" ${v===c?"selected":""}>${esc(c.length>90?c.slice(0,88)+"…":c)}</option>`).join("")}</select>${fix}</div>`;
+    }).join("")}</div>`;
+    if(!reveal) body.querySelectorAll("select").forEach(s=>s.onchange=()=>{ const o=Object.assign({},S.resp[q.id]||{}); o[s.dataset.i]=s.value||undefined; if(!s.value) delete o[s.dataset.i]; S.resp[q.id]=o; refreshActions(q); if(S.mode==="exam") renderGrid(); });
+  }
+  else if(q.tipo==="cloze"){
+    const rr=r||{};
+    const html=esc(q.text).replace(/\{(\d+)\}/g,(m,k)=>{
+      const b=q.blanks[+k]; const v=rr[k]; let cls="";
+      if(reveal) cls = v===b.ans?"is-ok":"is-bad";
+      return `<select data-k="${k}" class="${cls}" ${reveal?"disabled":""}><option value="">…</option>${b.opts.map((o,oi)=>`<option value="${oi}" ${v===oi?"selected":""}>${esc(o)}</option>`).join("")}</select>`;
+    });
+    body.innerHTML=`<div class="cloze">${html}</div>`;
+    if(!reveal) body.querySelectorAll("select").forEach(s=>s.onchange=()=>{ const o=Object.assign({},S.resp[q.id]||{}); if(s.value==="") delete o[s.dataset.k]; else o[s.dataset.k]=+s.value; S.resp[q.id]=o; refreshActions(q); if(S.mode==="exam") renderGrid(); });
+  }
+  else if(q.tipo==="open"){
+    const rr=r||{};
+    body.innerHTML=`<textarea class="ans" id="ansTxt" placeholder="Escribí tu respuesta como si fuera el parcial…" ${locked?"readonly":""}>${esc(rr.txt||"")}</textarea>
+      ${rr.shown||locked?`<div class="model"><div class="kicker" style="margin-bottom:6px">Respuesta modelo</div>${q.model}</div>`:""}
+      ${rr.shown && !locked?`<div class="self"><span>¿Cómo te fue?</span><button class="btn sm" data-s="1">La sabía</button><button class="btn sm" data-s="0.5">A medias</button><button class="btn sm" data-s="0">No la sabía</button></div>`:""}`;
+    const ta=body.querySelector("#ansTxt");
+    if(ta && !locked) ta.oninput=()=>{ S.resp[q.id]=Object.assign({},S.resp[q.id]||{},{txt:ta.value}); };
+    body.querySelectorAll("[data-s]").forEach(b=>b.onclick=()=>{ S.resp[q.id].self=+b.dataset.s; check(q); });
+  }
+}
+function pick(q,oi){
+  if(q.tipo==="multi"){ const a=(S.resp[q.id]||[]).slice(); const k=a.indexOf(oi); if(k>=0) a.splice(k,1); else a.push(oi); S.resp[q.id]=a; }
+  else S.resp[q.id]=oi;
+  renderBody(q,false); refreshActions(q); if(S.mode==="exam") renderGrid();
+}
+function renderFeedback(q){
+  const fb=document.getElementById("fb"); const sc = S.scores[q.id] ?? grade(q,S.resp[q.id]);
+  let head="", cls="";
+  if(q.tipo==="open"){ cls="ok"; head= S.resp[q.id]&&typeof S.resp[q.id].self==="number" ? ({1:"Marcaste: la sabías",0.5:"Marcaste: a medias",0:"Marcaste: no la sabías"}[S.resp[q.id].self]) : "Respuesta modelo"; cls = sc===1?"ok":sc===0?"bad":"part"; }
+  else if(sc===1){ cls="ok"; head="✓ Correcto"; }
+  else if(sc>0){ cls="part"; head=`½ Parcialmente correcto · ${Math.round(sc*100)}%`; }
+  else { cls="bad"; head= answered(q,S.resp[q.id])||q.tipo==="match"||q.tipo==="cloze" ? "✗ Incorrecto" : "✗ Sin responder"; }
+  fb.innerHTML=`${q.exp?`<div class="fb ${cls}"><div class="h">${head}</div><p>${q.exp}</p></div>`:`<div class="fb ${cls}"><div class="h">${head}</div></div>`}
+    ${q.nota?`<div class="note"><div class="h">⚠ Ojo</div>${q.nota}</div>`:""}`;
+}
+function canCheck(q){ return q.tipo==="open" ? false : answered(q,S.resp[q.id]) || (q.tipo==="match"&&Object.keys(S.resp[q.id]||{}).length>0) || (q.tipo==="cloze"&&Object.keys(S.resp[q.id]||{}).length>0); }
+function renderActions(q, locked){
+  const a=document.getElementById("actions"); const exam=S.mode==="exam"; const last=S.i===S.list.length-1;
+  let html=`<button class="btn ghost" id="prevB" ${S.i===0?"disabled":""}>← <span class="hide-sm">Anterior</span></button><div style="flex:1"></div>`;
+  if(exam && !S.finished){
+    html+=`<button class="btn" id="finB">Terminar</button><button class="btn primary" id="nextB" ${last?"disabled":""}>Siguiente →</button>`;
+  } else if(!locked){
+    if(q.tipo==="open"){ const rr=S.resp[q.id]||{}; html+= rr.shown? `<button class="btn" id="skipB">Saltar →</button>` : `<button class="btn primary" id="showB">Ver respuesta modelo <span class="kbd">↵</span></button>`; }
+    else html+=`<button class="btn" id="skipB">Saltar</button><button class="btn primary" id="checkB" ${canCheck(q)?"":"disabled"}>Comprobar <span class="kbd">↵</span></button>`;
+  } else {
+    html+= last ? (exam? `<button class="btn primary" id="resB">Ver resultados</button>` : `<button class="btn primary" id="endB">Terminar ✓</button>`) : `<button class="btn primary" id="nextB">Siguiente → <span class="kbd">↵</span></button>`;
+  }
+  a.innerHTML=html;
+  const on=(id,f)=>{ const el=document.getElementById(id); if(el) el.onclick=f; };
+  on("prevB",()=>go(-1)); on("nextB",()=>go(1)); on("skipB",()=>go(1)); on("checkB",()=>check(q));
+  on("showB",()=>{ S.resp[q.id]=Object.assign({},S.resp[q.id]||{},{shown:true}); renderBody(q,false); renderActions(q,false); });
+  on("finB",()=>finishExam(false)); on("endB",()=>renderResults()); on("resB",()=>renderResults());
+}
+function refreshActions(q){ const b=document.getElementById("checkB"); if(b) b.disabled=!canCheck(q); }
+function check(q){
+  const sc=grade(q,S.resp[q.id]); S.checked[q.id]=true; S.scores[q.id]=sc; recordStat(q,sc); renderQuiz();
+  const fb=document.getElementById("fb"); if(fb && fb.getBoundingClientRect().top>innerHeight-120) fb.scrollIntoView({behavior:"smooth",block:"center"});
+}
+function go(d){ const ni=S.i+d; if(ni<0||ni>=S.list.length) return; S.i=ni; renderQuiz(); window.scrollTo({top:0,behavior:"smooth"}); }
+function renderGrid(){
+  const g=document.getElementById("gridnav"); if(!g) return;
+  g.innerHTML=S.list.map((q,i)=>{
+    let c=""; if(S.finished){ const s=S.scores[q.id]; c= s===1?"ok":s>0?"part":"bad"; } else if(answered(q,S.resp[q.id])) c="ans";
+    return `<button class="${c} ${i===S.i?"cur":""}" data-i="${i}">${i+1}</button>`;
+  }).join("");
+  g.querySelectorAll("button").forEach(b=>b.onclick=()=>{ S.i=+b.dataset.i; renderQuiz(); });
+}
+function finishExam(timeout){
+  if(!timeout){
+    const pend=S.list.filter(q=>!answered(q,S.resp[q.id])).length;
+    const fb=document.getElementById("finB");
+    if(pend && fb && !fb.dataset.c){ fb.dataset.c="1"; fb.textContent=`Quedan ${pend} sin responder · ¿terminar?`; return; }
+  }
+  stopTimer(); S.finished=true;
+  S.list.forEach(q=>{ const sc=grade(q,S.resp[q.id]); S.scores[q.id]=sc; recordStat(q,sc); });
+  renderResults(timeout);
+}
+
+// ---------- RESULTS
+function renderResults(timeout){
+  stopTimer(); window.scrollTo(0,0);
+  const list=S.list.filter(q=> S.mode==="exam" || S.checked[q.id]);
+  const sum=list.reduce((a,q)=>a+(S.scores[q.id]||0),0), n=list.length;
+  const nota = n? (sum/n*10) : 0;
+  const per={}; list.forEach(q=>{ per[q.tema]=per[q.tema]||{s:0,n:0}; per[q.tema].s+=S.scores[q.id]||0; per[q.tema].n++; });
+  const mins=Math.round((Date.now()-S.t0)/60000);
+  const wrong=list.filter(q=>(S.scores[q.id]||0)<1);
+  $app.innerHTML=`
+  <section class="card">
+    <div class="kicker">${S.mode==="exam"?"Resultado del simulacro":"Resumen de la sesión"}${timeout?" · se terminó el tiempo":""}</div>
+    <div class="res-head" style="margin-top:10px">
+      <div class="big">${nota.toFixed(1).replace(".",",")}<small>/10</small></div>
+      <div>
+        <div><b>${fmtScore(Math.round(sum*100)/100)}</b> de ${n} puntos · ${mins} min</div>
+        <div class="muted" style="font-size:14px">${nota>=6?"Aprobarías con esto. Repasá las que fallaste para afianzar.":"Todavía no alcanza el 6. Repasá las falladas y volvé a intentar."}</div>
+      </div>
+    </div>
+    <div class="topic-stats" style="margin-top:16px">${Object.keys(per).map(t=>`<div class="ts-row"><span>${TEMAS[t]}</span><div class="bar"><i style="width:${Math.round(per[t].s/per[t].n*100)}%"></i></div><span class="v">${fmtScore(Math.round(per[t].s*100)/100)}/${per[t].n}</span></div>`).join("")}</div>
+    <div class="actions">
+      ${wrong.length?`<button class="btn primary" id="retryW">Repetir las ${wrong.length} falladas</button>`:""}
+      <button class="btn" id="again">Otro ${S.mode==="exam"?"simulacro":"intento"}</button>
+      <button class="btn ghost" id="home">Inicio</button>
+    </div>
+  </section>
+  ${n?`<section class="panel"><h3>Revisión · tocá una para ver la explicación</h3><div class="res-list">${list.map(q=>{ const s=S.scores[q.id]||0; const c=s===1?"ok":s>0?"part":"bad"; return `<button class="res-item" data-id="${q.id}"><span class="s ${c}">${s===1?"✓":s>0?Math.round(s*100)+"%":"✗"}</span><span class="tt">${q.q.replace(/<[^>]+>/g,"")}</span></button>`; }).join("")}</div></section>`:""}`;
+  const mode=S.mode, prevList=S.list;
+  document.getElementById("home").onclick=()=>renderHome();
+  document.getElementById("again").onclick=()=>start(mode==="review"?"review":mode);
+  const rw=document.getElementById("retryW");
+  if(rw) rw.onclick=()=>{ const l=shuffle(wrong); S={mode:"review",list:l,i:0,resp:{},checked:{},scores:{},order:{},finished:false,t0:Date.now(),limit:0}; l.forEach(q=>S.order[q.id]=makeOrder(q)); renderQuiz(); };
+  $app.querySelectorAll(".res-item").forEach(b=>b.onclick=()=>{
+    const idx=prevList.findIndex(q=>q.id===b.dataset.id);
+    if(mode!=="exam"){ S.finished=true; }
+    S.i=idx; renderQuiz(); window.scrollTo(0,0);
+  });
+}
+
+// ---------- keyboard
+document.addEventListener("keydown",e=>{
+  if(!S || !document.getElementById("card")) return;
+  const tag=(e.target.tagName||"").toLowerCase(); if(tag==="textarea"||tag==="select") return;
+  const q=S.list[S.i];
+  if(e.key==="ArrowRight"){ go(1); return; }
+  if(e.key==="ArrowLeft"){ go(-1); return; }
+  if(e.key==="Enter"){
+    const ids=["checkB","showB","nextB","resB","endB"]; for(const id of ids){ const b=document.getElementById(id); if(b && !b.disabled){ e.preventDefault(); b.click(); return; } }
+  }
+  const n=parseInt(e.key,10);
+  if(!isNaN(n) && n>=1){
+    const opts=[...document.querySelectorAll("#body .opt:not(:disabled)")]; if(opts[n-1]){ opts[n-1].click(); }
+  }
+  if(q.tipo==="tf" && !S.checked[q.id] && !S.finished){ if(e.key.toLowerCase()==="v") pick(q,0); if(e.key.toLowerCase()==="f") pick(q,1); }
+});
+
+renderHome();
+})();
+</script>
+</body>
+</html>
